@@ -18,7 +18,7 @@ module.exports = {
           }
         },
         '/api/weather': {
-            target: 'https://api.jisuapi.com/area',
+            target: 'http://v.juhe.cn/weather',
             changeOrigin: true,
             pathRewrite: {
                 '^/api/weather': ''

@@ -40,8 +40,9 @@
 		},
         methods: {
             getCity: function () {
-                var url = "https://api.jisuapi.com/area/province?appkey=137b2595309f2dc3";
-				this.$axios.get(url).then(function(res) {
+				var url = "weather/getWeatherData";
+				var param = {"id":""};
+				this.$axios.post(url, param).then(function(res) {
 				    console.log("数据："+res);
 				}).catch(function(res) {
 				    console.log(res);
