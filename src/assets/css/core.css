@@ -54,3 +54,126 @@
 	font-size: 100px;
 	color: powderblue;
 }
+
+.top {
+	position: absolute;
+	top: 25px;
+	left: 500px;
+	width: 800px;
+}
+
+.iconProvince {
+	color: white;
+	position: relative;
+	top: 3px;
+	left: -5px;
+}
+
+.province {
+	width: 100px;
+}
+
+.city {
+	width: 120px;
+}
+
+.el-dropdown {
+	vertical-align: top;
+}
+
+.el-dropdown + .el-dropdown {
+	margin-left: 15px;
+}
+
+.el-icon-arrow-down {
+	font-size: 12px;
+}
+
+.info {
+	position: relative;
+	top: -29px;
+	left: 285px;
+	color: wheat;
+}
+
+.content {
+	float: left;
+	margin-left: 30px;
+}
+
+.iconDate {
+	position: absolute;
+	left: -8px;
+	font-size: 25px;
+	top: -6px;
+	color: white;
+	font-weight: bold;
+}
+
+.iconDirect {
+	position: absolute;
+	left: 145px;
+	font-size: 25px;
+	top: -5px;
+	color: white;
+	font-weight: bold;
+}
+
+.iconTemperature {
+	position: absolute;
+	left: 240px;
+	font-size: 25px;
+	top: -6px;
+	color: white;
+	font-weight: bold;
+}
+
+.iconWeather {
+	color: white;
+	position: absolute;
+	top: 0;
+	left: 300px;
+	font-weight: bold;
+}
+
+.contentDate {
+	float: left;
+	margin-left: 30px;
+	position: relative;
+	left: -10px;
+}
+
+.login {
+	position: relative;
+	top: 25px;
+	left: 1200px;
+}
+
+.username, .password, .code {
+	margin-bottom: 10px;
+}
+
+.username, .password {
+	width: 300px;
+}
+
+.code {
+	width: 150px;
+}
+
+.loginCode {
+	position: relative;
+	left: 0;
+}
+
+.submit {
+	position: relative;
+	top: 0;
+	left: 150px;
+}
+
+.cancel {
+	position: relative;
+	left: -50px;
+	top: 0;
+}

@@ -6,8 +6,6 @@ import router from './router'
 // element-ui
 import Element from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-// 设置基础路径
-axios.defaults.baseURL = "http://127.0.0.1:8090";
 
 import axios from "axios";
 

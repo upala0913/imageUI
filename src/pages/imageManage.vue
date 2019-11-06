@@ -20,7 +20,7 @@
         methods: {
             getStu: function () {
                 _self = this;
-                let url = "/test/getStu";
+                let url = "/api/upala/test/getStu";
                 this.$axios.post(url).then(function (res) {
                     if (res.status === 200) {
                         _self.students = res.data.data;

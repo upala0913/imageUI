@@ -10,18 +10,25 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-        '/api': {
-          target: 'http://127.0.0.1:8090',
+        '/api/upala': {
+          target: 'http://127.0.0.1:8090/',
           changeOrigin: true,
           pathRewrite: {
-            '^/api': ''
+            '^/api/upala': ''
           }
         },
-        '/api/weather': {
-            target: 'http://v.juhe.cn/weather',
+        '/api/juhe': {
+            target: 'http://apis.juhe.cn/',
             changeOrigin: true,
             pathRewrite: {
-                '^/api/weather': ''
+                '^/api/juhe': ''
+            }
+        },
+        '/api/jisu': {
+            target: 'https://api.jisuapi.com/',
+            changeOrigin: true,
+            pathRewrite: {
+                '^/api/jisu': ''
             }
         }
     },

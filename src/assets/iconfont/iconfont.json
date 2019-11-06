@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "609278",
+      "name": "日期",
+      "font_class": "riqidate3",
+      "unicode": "e6d0",
+      "unicode_decimal": 59088
+    },
+    {
       "icon_id": "700854",
       "name": "图片",
       "font_class": "tupian",
@@ -27,6 +34,13 @@
       "unicode_decimal": 58886
     },
     {
+      "icon_id": "1693687",
+      "name": "风",
+      "font_class": "feng",
+      "unicode": "e637",
+      "unicode_decimal": 58935
+    },
+    {
       "icon_id": "2180837",
       "name": "视频",
       "font_class": "shipin",
@@ -34,11 +48,32 @@
       "unicode_decimal": 58901
     },
     {
+      "icon_id": "2309560",
+      "name": "温度",
+      "font_class": "wendu",
+      "unicode": "e632",
+      "unicode_decimal": 58930
+    },
+    {
       "icon_id": "3091973",
       "name": "更多",
       "font_class": "gengduo",
       "unicode": "e771",
       "unicode_decimal": 59249
+    },
+    {
+      "icon_id": "5334135",
+      "name": "城市",
+      "font_class": "chengshi",
+      "unicode": "e607",
+      "unicode_decimal": 58887
+    },
+    {
+      "icon_id": "6805558",
+      "name": "天气系列",
+      "font_class": "Hailstorm-Night",
+      "unicode": "e9ad",
+      "unicode_decimal": 59821
     }
   ]
 }
