@@ -174,7 +174,7 @@
 			// 获取验证码
             getCode: function() {
                 _self = this;
-                let url = "/api/upala/code/getCodeInfo";
+                let url = "/api/upala/user/code/getCodeInfo";
 				this.$axios.post(url).then(function(res) {
 				    if (res.status === 200) {
 				        _self.codeInfo = res.data.message;
@@ -209,7 +209,16 @@
                     md = _self.getMD5(password);
 				}
                 let param = {"username":username, "password":md, "code":code};
-                console.log(param);
+                console.log(JSON.stringify(param));
+                let url = "/api/upala/user/login";
+                this.$axios.post(url, param).then(function(res) {
+                    console.log(res);
+				}).catch(function(res) {
+                    _self.$message({
+						message: '登录失败' + res,
+						type: 'error'
+					});
+				});
 			}
         }
     }
