@@ -13,26 +13,34 @@
 			</el-select>
 			<!-- 天气 -->
 			<div class="info" >
-				<i class="iconfont iconriqidate3 iconDate" ></i>
+				<i class="iconfont iconriqidate3 iconDate" title="日期" ></i>
 				<div class="grid-content bg-purple contentDate">{{dateTime}}</div>
-				<i class="iconfont iconfeng iconDirect" ></i>
-				<div class="grid-content bg-purple content">{{weather.direct}}</div>
-				<i class="iconfont iconwendu iconTemperature" ></i>
-				<div class="grid-content bg-purple content">{{weather.temperature}}</div>
+				<i class="iconfont iconfeng iconDirect" title="风向" ></i>
+				<div class="grid-content bg-purple contentDirect">{{weather.direct}}</div>
+				<i class="iconfont iconwendu iconTemperature" title="温度" ></i>
+				<div class="grid-content bg-purple contentTemperature">{{weather.temperature}}</div>
 				<i class="iconfont iconHailstorm-Night iconWeather" title="天气" ></i>
-				<div class="grid-content bg-purple content">{{weather.weather}}</div>
+				<div class="grid-content bg-purple contentWeather">{{weather.weather}}</div>
 			</div>
 		</div>
-		<el-popover placement="bottom" title="请输入信息" width="300" v-model="visible" trigger="manual">
+		<el-popover v-if="!visibleAdmin"  placement="bottom" title="请输入信息" width="380" v-model="visible1"
+					trigger="manual">
 			<el-input placeholder="请输入账号/手机号/邮箱" v-model="username" clearable class="username"></el-input>
 			<el-input placeholder="请输入密码" v-model="password" show-password class="password"></el-input>
 			<el-input placeholder="请输入验证码" v-model="code" clearable class="code"></el-input>
 			<el-button class="loginCode" @click="getCode" >{{codeInfo}}</el-button>
-			<el-button type="primary" round class="submit" @click="submit" >提交</el-button>
-			<el-button type="primary" round @click="cancel" class="cancel" >取消</el-button>
+			<el-button type="primary" round class="submit" @click="submit" title="提交">提交</el-button>
+			<el-button type="primary" round @click="cancel" class="cancel" title="取消" >取消</el-button>
 			<el-button type="primary" icon="el-icon-user" slot="reference" circle title="登陆"
-					   @click="visible = !visible" class="login"></el-button>
+					   @click="visible1 = !visible1" class="login"></el-button>
 		</el-popover>
+		<el-dropdown size="mini" split-button type="primary" v-if="visibleAdmin" class="adminDropDown">
+			{{admin.userName}}
+			<el-dropdown-menu slot="dropdown">
+				<el-dropdown-item>个人中心</el-dropdown-item>
+				<el-dropdown-item @click="logout">退出</el-dropdown-item>
+			</el-dropdown-menu>
+		</el-dropdown>
 		<div class="module">
 			<p class="list" @click="btnImage">
 				<span class="font">图片</span>
@@ -72,19 +80,23 @@
 				parentId: '',
 				weather: {},
 				dateTime: '',
-                visible: false,
+                visible1: false,
+                visible2: false,
 				username: '',
                 password: '',
 				code: '',
                 codeInfo: '',
-				md5: ''
+				md5: '',
+				visibleAdmin: false,
+				admin: {}
             }
         },
 		created() {
           	// this.getProvince();
-            this.getWeather();
+            // this.getWeather();
             this.getDate();
             this.getCode();
+            this.getAdminInfo();
 		},
         methods: {
             // 获取省份信息
@@ -101,6 +113,7 @@
             },
 			// 获取城市信息
             getCity: function(event) {
+                _self.city = [];
                 let province = _self.province;
                 let length = province.length;
                 let i = 0;
@@ -115,14 +128,9 @@
                 this.$axios.get(url).then(function(res) {
                     _self.city = res.data.result;
 				}).catch(function(res) {
-                    this.$alert('请求出错', '标题名称', {
-                        confirmButtonText: '确定',
-                        callback: action => {
-                            this.$message({
-                                type: 'info',
-                                message: res
-                            });
-                        }
+                    _self.$message({
+                        message: "请求出错： " + res,
+                        type: 'warning'
                     });
 				});
 			},
@@ -131,7 +139,7 @@
                 _self = this;
                 console.log(event);
                 let key = "3fdd4ff8cc3f97e2f547623ebe0d3086";
-                let url = "/api/juhe/simpleWeather/query?city=银川&key=" + key;
+                let url = "/api/juhe/simpleWeather/query?city="+ event +"&key=" + key;
                 this.$axios.get(url).then(function(res) {
                     _self.weather = res.data.result.future[0];
 				}).catch(function(res) {
@@ -139,10 +147,25 @@
 				});
 			},
             btnImage: function() {
-                this.$router.push({path: '/imageManage'});
+                _self = this;
+                _self.getMessage('/imageManage')
             },
             btnFile: function() {
-                alert("file");
+                _self = this;
+                let url = "/api/upala/user/skip/pages";
+                this.$axios.post(url).then(function(res) {
+                    if (res.data.status === 10003) {
+                        _self.$message({
+                            message: res.data.message,
+                            type: 'warning'
+                        });
+                    }
+                }).catch(function(res) {
+                    _self.$message({
+                        message: '请求出错 ' + res,
+                        type: 'error'
+                    });
+                });
             },
             btnVideo: function() {
                 alert("video");
@@ -181,7 +204,7 @@
 					}
 				}).catch(function(res) {
                     _self.$message({
-						message: '请求数据出错' + res,
+						message: '获取验证码出错  ' + res,
 						type: 'error'
 					});
 				});
@@ -189,7 +212,7 @@
 			//取消提交
             cancel: function() {
 				_self = this;
-				_self.visible = !_self.visible;
+				_self.visible1 = !_self.visible1;
 				_self.username = '';
 				_self.password = '';
 				_self.code = '';
@@ -199,26 +222,98 @@
 			},
             submit: function() {
                 _self = this;
-                let username = _self.username;
-                let password = _self.password;
+                let username = _self.username.trim();
+                let password = _self.password.trim();
                 let code = _self.code;
-                let md = '';
-                if (password.trim() === '') {
-                    md = '';
+                if (username === '' || password === '') {
+                    _self.$message({
+                        message: '用户名密码不能为空',
+                        type: 'error'
+                    });
 				} else {
-                    md = _self.getMD5(password);
+                    let md = '';
+                    if (password.trim() === '') {
+                        md = '';
+                    } else {
+                        md = _self.getMD5(password);
+                    }
+                    let param = {"username":username, "password":md, "code":code};
+                    console.log(JSON.stringify(param));
+                    let url = "/api/upala/user/login";
+                    this.$axios.post(url, param).then(function(res) {
+                        if (res.status === 200) {
+                            _self.admin = res.data.data;
+                            _self.visibleAdmin = true;
+                        }
+                        if (res.status === 10000) {
+                            _self.$message({
+                                message: res.message,
+                                type: 'error'
+                            });
+                        }
+                        if (res.status === 10001) {
+                            _self.$message({
+                                message: res.message,
+                                type: 'error'
+                            });
+                        }
+                    }).catch(function(res) {
+                        _self.$message({
+                            message: '登录失败  ' + res,
+                            type: 'error'
+                        });
+                    });
 				}
-                let param = {"username":username, "password":md, "code":code};
-                console.log(JSON.stringify(param));
-                let url = "/api/upala/user/login";
-                this.$axios.post(url, param).then(function(res) {
-                    console.log(res);
+			},
+			getMessage: function(param) {
+                _self = this;
+                let url = "/api/upala/user/skip/pages";
+                this.$axios.post(url).then(function(res) {
+                    if (res.data.status === 10003) {
+                        _self.$message({
+                            message: res.data.message,
+                            type: 'warning'
+                        });
+                    }
+                    if (res.data.status === 10004) {
+                        _self.$router.push({path: param});
+					}
+                }).catch(function(res) {
+                    _self.$message({
+                        message: '请求出错 ' + res,
+                        type: 'error'
+                    });
+                });
+			},
+			getAdminInfo: function() {
+                _self = this;
+                let url = "/api/upala/user/adminInfo";
+                this.$axios.post(url).then(function(res) {
+                    if (res.data.status === 10004) {
+                        _self.admin = res.data.data;
+                        _self.visibleAdmin = true;
+                    }
 				}).catch(function(res) {
                     _self.$message({
-						message: '登录失败' + res,
-						type: 'error'
-					});
+                        message: '请求出错 ' + res,
+                        type: 'error'
+                    });
 				});
+			},
+            logout: function() {
+                alert(123);
+                // _self = this;
+                // let url = "/api/upala/user/logout";
+                // this.$axios.post(url).then(function(res) {
+                //     if (res.data.status === 200) {
+                //         _self.$router.push({path: '/'});
+				// 	}
+				// }).catch(function(res) {
+                //     _self.$message({
+				// 		message: "请求出错： " + res,
+				// 		type: 'error'
+				// 	});
+				// });
 			}
         }
     }

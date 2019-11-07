@@ -132,19 +132,33 @@
 	color: white;
 	position: absolute;
 	top: 0;
-	left: 300px;
+	left: 315px;
 	font-weight: bold;
 }
 
 .contentDate {
 	float: left;
 	margin-left: 30px;
-	position: relative;
+	position: absolute;
 	left: -10px;
 }
 
-.login {
-	position: relative;
+.contentDirect {
+	position: absolute;
+	left: 175px;
+}
+.contentTemperature {
+	position: absolute;
+	left: 260px;
+}
+
+.contentWeather {
+	position: absolute;
+	left: 335px;
+}
+
+.login, .adminDropDown {
+	position: absolute;
 	top: 25px;
 	left: 1200px;
 }
@@ -162,18 +176,18 @@
 }
 
 .loginCode {
-	position: relative;
-	left: 0;
+	position: absolute;
+	left: 230px;
 }
 
 .submit {
-	position: relative;
-	top: 0;
-	left: 150px;
+	position: absolute;
+	top: 40px;
+	left: 310px;
 }
 
 .cancel {
-	position: relative;
-	left: -50px;
-	top: 0;
+	position: absolute;
+	left: 310px;
+	top: 140px;
 }
