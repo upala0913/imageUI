@@ -38,7 +38,7 @@
 			{{admin.userName}}
 			<el-dropdown-menu slot="dropdown">
 				<el-dropdown-item>个人中心</el-dropdown-item>
-				<el-dropdown-item @click="logout">退出</el-dropdown-item>
+				<el-dropdown-item @click.native="logout">退出</el-dropdown-item>
 			</el-dropdown-menu>
 		</el-dropdown>
 		<div class="module">
@@ -301,19 +301,20 @@
 				});
 			},
             logout: function() {
-                alert(123);
-                // _self = this;
-                // let url = "/api/upala/user/logout";
-                // this.$axios.post(url).then(function(res) {
-                //     if (res.data.status === 200) {
-                //         _self.$router.push({path: '/'});
-				// 	}
-				// }).catch(function(res) {
-                //     _self.$message({
-				// 		message: "请求出错： " + res,
-				// 		type: 'error'
-				// 	});
-				// });
+                _self = this;
+                let url = "/api/upala/user/logout";
+                this.$axios.post(url).then(function(res) {
+                    if (res.data.status === 200) {
+                        _self.$router.push({path: '/'});
+						_self.admin = {};
+                        _self.visibleAdmin = false;
+					}
+				}).catch(function(res) {
+                    _self.$message({
+						message: "请求出错： " + res,
+						type: 'error'
+					});
+				});
 			}
         }
     }
