@@ -241,27 +241,29 @@
                     console.log(JSON.stringify(param));
                     let url = "/api/upala/user/login";
                     this.$axios.post(url, param).then(function(res) {
-                        if (res.status === 200) {
+                        if (res.data.status === 200) {
                             _self.admin = res.data.data;
                             _self.visibleAdmin = true;
                         }
-                        if (res.status === 10000) {
+                        if (res.data.status === 10000) {
                             _self.$message({
-                                message: res.message,
+                                message: res.data.message,
                                 type: 'error'
                             });
                         }
-                        if (res.status === 10001) {
+                        if (res.data.status === 10001) {
                             _self.$message({
-                                message: res.message,
+                                message: res.data.message,
                                 type: 'error'
                             });
                         }
+                        _self.getCode();
                     }).catch(function(res) {
                         _self.$message({
                             message: '登录失败  ' + res,
                             type: 'error'
                         });
+                        _self.getCode();
                     });
 				}
 			},
@@ -305,9 +307,9 @@
                 let url = "/api/upala/user/logout";
                 this.$axios.post(url).then(function(res) {
                     if (res.data.status === 200) {
-                        _self.$router.push({path: '/'});
 						_self.admin = {};
                         _self.visibleAdmin = false;
+                        _self.cancel();
 					}
 				}).catch(function(res) {
                     _self.$message({
