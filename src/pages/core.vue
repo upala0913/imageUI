@@ -37,7 +37,7 @@
 		<el-dropdown size="mini" split-button type="primary" v-if="visibleAdmin" class="adminDropDown">
 			{{admin.userName}}
 			<el-dropdown-menu slot="dropdown">
-				<el-dropdown-item>个人中心</el-dropdown-item>
+				<el-dropdown-item @click.native="toPersonal" >个人中心</el-dropdown-item>
 				<el-dropdown-item @click.native="logout">退出</el-dropdown-item>
 			</el-dropdown-menu>
 		</el-dropdown>
@@ -68,7 +68,6 @@
 
     // 导入md5加密插件
     import md5 from 'js-md5';
-
     export default {
         name: "core",
         data() {
@@ -317,6 +316,9 @@
 						type: 'error'
 					});
 				});
+			},
+			toPersonal: function() {
+				this.$router.push({path: '/personal'});
 			}
         }
     }
