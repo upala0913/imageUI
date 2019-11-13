@@ -12,6 +12,7 @@ module.exports = {
     proxyTable: {
         '/api/upala': {
           target: 'http://127.0.0.1:8090/',
+          // target: 'http://106.13.33.67:8090/',
           changeOrigin: true,
           pathRewrite: {
             '^/api/upala': ''
