@@ -1,19 +1,26 @@
 .container {
-	/*background: url("../image/AI.jpg") no-repeat;*/
-	background-size: 100%, 100%;
 	width: 100%;
-	height: 100%;
+	height: 110%;
 	padding: 0;
 	margin: 0;
 	position: absolute;
 	overflow: hidden;
 }
 
+.main {
+	background: url("../image/AI.jpg") no-repeat;
+	background-size: 100%, 100%;
+	width: 100%;
+	height: 77.5%;
+	position: relative;
+	top: 90px;
+}
+
 .module {
 	width: 800px;
-	height: 500px;
-	position: absolute;
-	top: 55%;
+	height: 400px;
+	position: relative;
+	top: 42%;
 	left: 40%;
 	transform: translate(-50%, -50%);
 }
@@ -22,7 +29,7 @@
 	float: left;
 	margin: 10px;
 	background: aqua;
-	width: 340px;
+	width: 330px;
 	height: 200px;
 	border-radius: 10px;
 	cursor: pointer;

@@ -52,12 +52,11 @@
     // 导入md5加密插件
     import md5 from 'js-md5';
     export default {
-        name: "header",
+        name: "imageHeader",
 		data() {
             return {
                 parentId: '',
                 visible1: false,
-                visible2: false,
                 codeInfo: '',
                 md5: '',
                 provinceValue: '',
@@ -168,8 +167,8 @@
             },
             submit: function() {
                 _self = this;
-                let username = _self.username.trim();
-                let password = _self.password.trim();
+                let username = _self.personInfo.username.trim();
+                let password = _self.personInfo.password.trim();
                 let code = _self.code;
                 if (username === '' || password === '') {
                     _self.$message({
@@ -230,6 +229,7 @@
                 this.$axios.post(url).then(function(res) {
                     if (res.data.status === 200) {
                         _self.admin = {};
+                        // debugger;
                         _self.visibleAdmin = false;
                         _self.cancel();
                     }
@@ -242,27 +242,6 @@
             },
             toPersonal: function() {
                 this.$router.push({path: '/personal'});
-            },
-
-            getMessage: function(param) {
-                _self = this;
-                let url = "/api/upala/user/skip/pages";
-                this.$axios.post(url).then(function(res) {
-                    if (res.data.status === 10003) {
-                        _self.$message({
-                            message: res.data.message,
-                            type: 'warning'
-                        });
-                    }
-                    if (res.data.status === 10004) {
-                        _self.$router.push({path: param});
-                    }
-                }).catch(function(res) {
-                    _self.$message({
-                        message: '请求出错 ' + res,
-                        type: 'error'
-                    });
-                });
             },
             getAdminInfo: function() {
                 _self = this;
@@ -285,5 +264,5 @@
 
 <style scoped>
 	@import '../../assets/iconfont/iconfont.css';
-	@import '../../assets/css/header.css';
+	@import '../../assets/css/imageHeader.css';
 </style>

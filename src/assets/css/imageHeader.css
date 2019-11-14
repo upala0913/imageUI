@@ -1,7 +1,7 @@
 .top {
 	position: absolute;
 	width: 100%;
-	height: 90px;
+	height: 15%;
 	background-color: #0086b3;
 }
 
@@ -102,8 +102,8 @@
 
 .login, .adminDropDown {
 	position: absolute;
-	top: 25px;
-	left: 1600px;
+	top: 25%;
+	left: 90%;
 }
 
 .username, .password, .code {
@@ -145,6 +145,6 @@
 
 .sky-info {
 	position: absolute;
-	top: 23px;
-	left: 400px;
+	top: 25%;
+	left: 25%;
 }
