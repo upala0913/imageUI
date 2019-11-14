@@ -1,0 +1,150 @@
+.top {
+	position: absolute;
+	width: 100%;
+	height: 90px;
+	background-color: #0086b3;
+}
+
+.iconProvince {
+	color: white;
+	position: relative;
+	top: 3px;
+	left: -5px;
+}
+
+.province {
+	width: 100px;
+}
+
+.city {
+	width: 120px;
+}
+
+.el-dropdown {
+	vertical-align: top;
+}
+
+.el-dropdown + .el-dropdown {
+	margin-left: 15px;
+}
+
+.el-icon-arrow-down {
+	font-size: 12px;
+}
+
+.info {
+	position: relative;
+	top: -29px;
+	left: 285px;
+	color: wheat;
+}
+
+.content {
+	float: left;
+	margin-left: 30px;
+}
+
+.iconDate {
+	position: absolute;
+	left: -8px;
+	font-size: 25px;
+	top: -6px;
+	color: white;
+	font-weight: bold;
+}
+
+.iconDirect {
+	position: absolute;
+	left: 145px;
+	font-size: 25px;
+	top: -5px;
+	color: white;
+	font-weight: bold;
+}
+
+.iconTemperature {
+	position: absolute;
+	left: 300px;
+	font-size: 25px;
+	top: -6px;
+	color: white;
+	font-weight: bold;
+}
+
+.iconWeather {
+	color: white;
+	position: absolute;
+	top: 0;
+	left: 400px;
+	font-weight: bold;
+}
+
+.contentDate {
+	float: left;
+	margin-left: 30px;
+	position: absolute;
+	left: -10px;
+}
+
+.contentDirect {
+	position: absolute;
+	left: 175px;
+}
+.contentTemperature {
+	position: absolute;
+	left: 260px;
+}
+
+.contentWeather {
+	position: absolute;
+	left: 335px;
+}
+
+.login, .adminDropDown {
+	position: absolute;
+	top: 25px;
+	left: 1600px;
+}
+
+.username, .password, .code {
+	margin-bottom: 10px;
+}
+
+.username, .password {
+	width: 300px;
+}
+
+.code {
+	width: 150px;
+}
+
+.loginCode {
+	position: absolute;
+	left: 230px;
+}
+
+.submit {
+	position: absolute;
+	top: 40px;
+	left: 310px;
+}
+
+.cancel {
+	position: absolute;
+	left: 310px;
+	top: 140px;
+}
+
+.icon {
+	position: relative;
+	top: 35%;
+	left: -10%;
+	font-size: 100px;
+	color: powderblue;
+}
+
+.sky-info {
+	position: absolute;
+	top: 23px;
+	left: 400px;
+}
