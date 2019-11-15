@@ -1,27 +1,33 @@
 <template>
 	<div class="top">
-		<div class="sky-info" >
-		<!-- 城市 -->
-		<i class="iconfont iconchengshi iconProvince" title="城市" ></i>
-		<el-select class="province" clearable v-model="provinceValue" placeholder="请选择省" value="0"
-				   @change="getCity" >
-			<el-option v-for="item in province" :key="item.id" :value="item.name"></el-option>
-		</el-select>
-		<el-select class="city" clearable v-model="cityValue" placeholder="请选择市/区" value="0"
-				   @change="getWeather">
-			<el-option v-for="item in city" :key="item.id" :value="item.name" ></el-option>
-		</el-select>
-		<!-- 天气 -->
-		<div class="info" >
-			<i class="iconfont iconriqidate3 iconDate" title="日期" ></i>
-			<div class="grid-content bg-purple contentDate">{{dateTime}}</div>
-			<i class="iconfont iconfeng iconDirect" title="风向" ></i>
-			<div class="grid-content bg-purple contentDirect">{{weather.direct}}</div>
-			<i class="iconfont iconwendu iconTemperature" title="温度" ></i>
-			<div class="grid-content bg-purple contentTemperature">{{weather.temperature}}</div>
-			<i class="iconfont iconHailstorm-Night iconWeather" title="天气" ></i>
-			<div class="grid-content bg-purple contentWeather">{{weather.weather}}</div>
+		<div class="logo" >
+			<img src="../../assets/image/logo.png" alt="logo" class="logo" >
+			<span class="logo-font" >
+				U&nbsp;P&nbsp;A&nbsp;L&nbsp;A&nbsp;文&nbsp;&nbsp;件&nbsp;&nbsp;管&nbsp;&nbsp;理
+			</span>
 		</div>
+		<div class="sky-info" >
+			<!-- 城市 -->
+			<i class="iconfont iconchengshi iconProvince" title="城市" ></i>
+			<el-select class="province" clearable v-model="provinceValue" placeholder="请选择省" value="0"
+					   @change="getCity" >
+				<el-option v-for="item in province" :key="item.id" :value="item.name"></el-option>
+			</el-select>
+			<el-select class="city" clearable v-model="cityValue" placeholder="请选择市/区" value="0"
+					   @change="getWeather">
+				<el-option v-for="item in city" :key="item.id" :value="item.name" ></el-option>
+			</el-select>
+			<!-- 天气 -->
+			<div class="info" >
+				<i class="iconfont iconriqidate3 iconDate" title="日期" ></i>
+				<div class="grid-content bg-purple contentDate">{{dateTime}}</div>
+				<i class="iconfont iconfeng iconDirect" title="风向" ></i>
+				<div class="grid-content bg-purple contentDirect">{{weather.direct}}</div>
+				<i class="iconfont iconwendu iconTemperature" title="温度" ></i>
+				<div class="grid-content bg-purple contentTemperature">{{weather.temperature}}</div>
+				<i class="iconfont iconHailstorm-Night iconWeather" title="天气" ></i>
+				<div class="grid-content bg-purple contentWeather">{{weather.weather}}</div>
+			</div>
 		</div>
 
 		<el-popover v-if="!visibleAdmin"  placement="bottom" title="请输入信息" width="380" v-model="visible1"
