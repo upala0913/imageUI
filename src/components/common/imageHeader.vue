@@ -1,7 +1,7 @@
 <template>
 	<div class="top">
-		<div class="logo" >
-			<img src="../../assets/image/logo.png" alt="logo" class="logo" >
+		<div class="logo-icon" >
+			<img src="../../assets/image/logo.png" alt="logo" class="logo" @click="toCore" >
 			<span class="logo-font" >
 				U&nbsp;P&nbsp;A&nbsp;L&nbsp;A&nbsp;文&nbsp;&nbsp;件&nbsp;&nbsp;管&nbsp;&nbsp;理
 			</span>
@@ -235,9 +235,9 @@
                 this.$axios.post(url).then(function(res) {
                     if (res.data.status === 200) {
                         _self.admin = {};
-                        // debugger;
                         _self.visibleAdmin = false;
                         _self.cancel();
+						_self.$router.push({path: '/'});
                     }
                 }).catch(function(res) {
                     _self.$message({
@@ -264,6 +264,9 @@
                     });
                 });
             },
+			toCore: function() {
+            	this.$router.push({path:'/'});
+			}
 		}
     }
 </script>
