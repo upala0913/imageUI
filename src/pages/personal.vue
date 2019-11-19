@@ -194,7 +194,7 @@
 					_self.mobile = res.data.data.mobile;
 					_self.email = res.data.data.email;
 					_self.reName = res.data.data.reName;
-					console.log(res.data.data);
+					console.log(_self.reName);
 				}).catch(function(res) {});
 			}
         }
