@@ -7,7 +7,7 @@
 }
 .personal-info {
     position: absolute;
-    top: 15%;
+    top: 10%;
     left: 16%;
     width: 70%;
     height: 80%;
@@ -18,7 +18,7 @@
     position: relative;
     top: 12px;
 	left: 25%;
-    height: 440px;
+	height: 470px;
 }
 .per-info {
     height: 450px;
@@ -38,6 +38,7 @@
 }
 .per-table > tr {
     height: 30px;
+	border-bottom: 1px solid black;
 }
 .per-table-title-icon, .per-table-cont-icon {
     height: 80px;
@@ -52,10 +53,9 @@
     width: 400px;
 }
 .per-table-title, .per-table-cont {
-    height: 60px;
-    text-align: center;
-    line-height: 60px;
-    border-bottom: 1px solid black;
+	text-align: center;
+	line-height: 54px;
+	border-bottom: 1px solid black;
 }
 .per-table-title {
     width: 100px;
@@ -81,7 +81,8 @@
     left: -75px;
 }
 .email-bind-status, .email-bind-active,
-.mobile-bind-status, .mobile-bind-active {
+.mobile-bind-status, .mobile-bind-active,
+.reName-bind-status, .reName-bind-active {
     position: relative;
     height: 30px;
 }
@@ -100,4 +101,12 @@
 .mobile-bind-active {
     top: -30px;
     left: 100px;
+}
+.reName-bind-status {
+	left: -100px;
+	top: 2px;
+}
+.reName-bind-active {
+	top: -30px;
+	left: 100px;
 }

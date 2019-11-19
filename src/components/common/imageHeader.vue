@@ -77,7 +77,15 @@
                     password: ""
 				},
                 code: '',
-                admin: {}
+                admin: {
+                    id: '',
+                    userName: '',
+                    userPass: '',
+                    mobile: '',
+                    email: '',
+                    photo: '',
+                    reName: ''
+				}
 			}
 		},
         created() {
@@ -247,7 +255,16 @@
                 });
             },
             toPersonal: function() {
-                this.$router.push({path: '/personal'});
+                _self = this;
+                if (this.admin.username === '')
+                    _self.$router.push({path: '/'});
+                else
+                    this.$router.push({
+						name: 'personal',
+						params: {
+						    perId: _self.admin.id,
+						}
+                    });
             },
             getAdminInfo: function() {
                 _self = this;
