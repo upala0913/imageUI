@@ -120,7 +120,6 @@
     import Vue from 'vue'
     import vueParticles from 'vue-particles'
     Vue.use(vueParticles);
-    import storage from 'good-storage'
 
     export default {
         name: "personal",
@@ -163,7 +162,7 @@
         methods: {
             bindData: function() {
                 _self = this;
-                let admin = storage.get("admin");
+                let admin = _self.$storage.get("admin");
                 _self.perId = admin.id;
                 console.log(_self.perId);
 			},

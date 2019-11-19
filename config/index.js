@@ -11,8 +11,8 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
         '/api/upala': {
-          target: 'http://127.0.0.1:8090/',
-          // target: 'http://www.wongupala.top:8090/',
+          // target: 'http://127.0.0.1:8090/',
+          target: 'http://www.wongupala.top:8090/',
           changeOrigin: true,
           pathRewrite: {
             '^/api/upala': ''

@@ -6,12 +6,14 @@ import router from './router'
 // element-ui
 import Element from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
+import storage from 'good-storage'
 
 import axios from "axios";
 
 Vue.config.productionTip = false;
 Vue.use(Element);
 Vue.prototype.$axios = axios;
+Vue.prototype.$storage = storage;
 
 new Vue({
     el: '#app',

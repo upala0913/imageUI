@@ -57,7 +57,6 @@
 
     // 导入md5加密插件
     import md5 from 'js-md5';
-    import storage from 'good-storage'
 
     export default {
         name: "imageHeader",
@@ -119,7 +118,6 @@
                 for (i=0;i<length;i++) {
                     if (event === province[i].name) {
                         _self.parentId = province[i].id;
-                        console.log(_self.parentId);
                         break;
                     }
                 }
@@ -205,7 +203,7 @@
                         if (res.data.status === 200) {
                             _self.admin = res.data.data;
                             _self.visibleAdmin = true;
-                            storage.set("admin", res.data.data);
+                            _self.$storage.set("admin", res.data.data);
                         }
                         if (res.data.status === 10000) {
                             _self.$message({
@@ -249,6 +247,7 @@
                         _self.visibleAdmin = false;
                         _self.cancel();
 						_self.$router.push({path: '/'});
+                        _self.$storage.remove("admin");
                     }
                 }).catch(function(res) {
                     _self.$message({
