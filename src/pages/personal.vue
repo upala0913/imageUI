@@ -20,15 +20,16 @@
                                             头像{{perId}}
                                         </td>
                                         <td class="per-table-cont-icon" >
-                                            <el-avatar :size="70" src="https://empty" class="per-info-icon" >
-												<span v-if="src === ''" >
-													<img alt="头像" src=""/>
+												<span v-if="!isSrc" >
+													<el-avatar :size="70" src="https://empty" class="per-info-icon" >
+														<img alt="头像" :src="photo"/>
+                                            		</el-avatar>
 												</span>
-                                                <span v-if="src !== ''" >
-													<img alt="头像"
-														 :src="src"/>
+                                                <span v-if="isSrc" >
+													<el-avatar :size="70" src="https://empty" class="per-info-icon" >
+														<img alt="头像" :src="src"/>
+													</el-avatar>
 												</span>
-                                            </el-avatar>
                                             <el-button class="edit-icon" type="primary"
                                                        icon="el-icon-edit" circle title="上传头像"></el-button>
                                         </td>
@@ -133,6 +134,7 @@
 				username: '',
 				photo: 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png',
 				src: '', // 头像
+				isSrc: false,
                 password: "",
                 mobile: '',
                 email: '',
@@ -158,6 +160,7 @@
             this.mobileIsBind();
             this.emailIsBind();
             this.reNameIsBind();
+            this.srcIsBind();
         },
         methods: {
             bindData: function() {
@@ -181,10 +184,15 @@
                 let $reName = this.reName;
                 $reName === ''?_self.reNameBind = false:_self.reNameBind = true;
 			},
+            srcIsBind: function() {
+                _self = this;
+                let $src = this.src;
+                console.log($src);
+                $src === ''?_self.isSrc = false:_self.isSrc = true;
+            },
 			getPersonInfo: function() {
                 _self = this;
                 let param = {"id": _self.perId};
-                console.log(param);
                 let url = '/api/upala/user/getPersonInfo';
                 this.$axios.post(url, param).then(function(res) {
 					_self.username = res.data.data.userName;
@@ -193,7 +201,6 @@
 					_self.mobile = res.data.data.mobile;
 					_self.email = res.data.data.email;
 					_self.reName = res.data.data.reName;
-					console.log(_self.reName);
 				}).catch(function(res) {});
 			}
         }
