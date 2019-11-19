@@ -17,15 +17,20 @@
                                     <tr>
                                         <td class="per-table-title-icon" >
                                             <i class="el-icon-s-custom" ></i>
-                                            头像{{id}}
+                                            头像{{perId}}
                                         </td>
                                         <td class="per-table-cont-icon" >
                                             <el-avatar :size="70" src="https://empty" class="per-info-icon" >
-                                                <img alt="头像"
-                                                     src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"/>
+												<span v-if="src === ''" >
+													<img alt="头像" src=""/>
+												</span>
+                                                <span v-if="src !== ''" >
+													<img alt="头像"
+														 :src="src"/>
+												</span>
                                             </el-avatar>
                                             <el-button class="edit-icon" type="primary"
-                                                       icon="el-icon-edit" circle title="修改头像"></el-button>
+                                                       icon="el-icon-edit" circle title="上传头像"></el-button>
                                         </td>
                                     </tr>
                                     <tr>
@@ -34,7 +39,7 @@
                                             昵称
                                         </td>
                                         <td class="per-table-cont" >
-                                            张飞
+                                            {{username}}
                                         </td>
                                     </tr>
 									<tr>
@@ -115,6 +120,8 @@
     import Vue from 'vue'
     import vueParticles from 'vue-particles'
     Vue.use(vueParticles);
+    import storage from 'good-storage'
+
     export default {
         name: "personal",
         components: {
@@ -124,22 +131,42 @@
             return {
                 active: true,
                 tabPosition: 'left',
-                password: "123456",
-                mobile: '19426382365',
+				username: '',
+				photo: 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png',
+				src: '', // 头像
+                password: "",
+                mobile: '',
                 email: '',
                 emailBind: false,
                 mobileBind: false,
 				reName: '',
 				reNameBind: false,
-				id: this.$route.params.perId,
+				perId: '',
+				admin: {
+                    id: '',
+                    userName: '',
+                    userPass: '',
+                    mobile: '',
+                    email: '',
+                    photo: '',
+                    reName: ''
+				}
             }
         },
         created() {
+            this.bindData();
+            this.getPersonInfo();
             this.mobileIsBind();
             this.emailIsBind();
             this.reNameIsBind();
         },
         methods: {
+            bindData: function() {
+                _self = this;
+                let admin = storage.get("admin");
+                _self.perId = admin.id;
+                console.log(_self.perId);
+			},
             mobileIsBind: function() {
                 _self = this;
                 let $mobile = this.mobile;
@@ -154,6 +181,21 @@
                 _self = this;
                 let $reName = this.reName;
                 $reName === ''?_self.reNameBind = false:_self.reNameBind = true;
+			},
+			getPersonInfo: function() {
+                _self = this;
+                let param = {"id": _self.perId};
+                console.log(param);
+                let url = '/api/upala/user/getPersonInfo';
+                this.$axios.post(url, param).then(function(res) {
+					_self.username = res.data.data.userName;
+					_self.password = res.data.data.userPass;
+					_self.src = res.data.data.photo;
+					_self.mobile = res.data.data.mobile;
+					_self.email = res.data.data.email;
+					_self.reName = res.data.data.reName;
+					console.log(res.data.data);
+				}).catch(function(res) {});
 			}
         }
     }

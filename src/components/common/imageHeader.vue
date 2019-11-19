@@ -57,6 +57,8 @@
 
     // 导入md5加密插件
     import md5 from 'js-md5';
+    import storage from 'good-storage'
+
     export default {
         name: "imageHeader",
 		data() {
@@ -203,6 +205,7 @@
                         if (res.data.status === 200) {
                             _self.admin = res.data.data;
                             _self.visibleAdmin = true;
+                            storage.set("admin", res.data.data);
                         }
                         if (res.data.status === 10000) {
                             _self.$message({
@@ -256,15 +259,11 @@
             },
             toPersonal: function() {
                 _self = this;
-                if (this.admin.username === '')
+                if (_self.admin.userName === '')
                     _self.$router.push({path: '/'});
-                else
-                    this.$router.push({
-						name: 'personal',
-						params: {
-						    perId: _self.admin.id,
-						}
-                    });
+                else {
+                    _self.$router.push({path: '/personal'});
+				}
             },
             getAdminInfo: function() {
                 _self = this;
