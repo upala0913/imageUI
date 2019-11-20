@@ -110,3 +110,35 @@
 	top: -30px;
 	left: 100px;
 }
+.bind-mobile, .bind-code {
+    position: relative;
+    left: 40px;
+}
+.bind-mobile {
+    top: 0;
+    width: 350px;
+}
+.bind-code {
+    top: 10px;
+    width: 150px;
+}
+.code-button {
+    position: relative;
+    top: 10px;
+    left: 80px;
+}
+.bind-submit {
+    position: relative;
+    top: 60px;
+    left: -200px;
+}
+.bind-reset {
+    position: relative;
+    top: 21px;
+    left: 230px;
+}
+.bind-info {
+    position: absolute;
+    width: 1000px;
+    left: 180px;
+}

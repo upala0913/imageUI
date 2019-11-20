@@ -17,7 +17,7 @@
                                     <tr>
                                         <td class="per-table-title-icon" >
                                             <i class="el-icon-s-custom" ></i>
-                                            头像{{perId}}
+                                            头像
                                         </td>
                                         <td class="per-table-cont-icon" >
 												<span v-if="!isSrc" >
@@ -54,7 +54,7 @@
 												<span v-if="reNameBind" >{{reName}}</span>
 											</div>
 											<div class="reName-bind-active" >
-												<el-link type="primary" v-if="!reNameBind" >去认证</el-link>
+												<el-link type="primary" v-if="!reNameBind" @click="getIdCard" >去认证</el-link>
 												<el-link type="primary" v-if="reNameBind" >已认证</el-link>
 											</div>
 										</td>
@@ -82,7 +82,8 @@
                                                 <span v-if="mobileBind" >{{mobile}}</span>
                                             </div>
                                             <div class="mobile-bind-active" >
-                                                <el-link type="primary" v-if="!mobileBind" >绑定</el-link>
+                                                <el-link type="primary" v-if="!mobileBind"
+                                                         @click="mobileBindPlain=true">绑定</el-link>
                                                 <el-link type="primary" v-if="mobileBind" >解绑</el-link>
                                             </div>
                                         </td>
@@ -98,7 +99,8 @@
                                                 <span v-if="emailBind" >{{email}}</span>
                                             </div>
                                             <div class="email-bind-active" >
-                                                <el-link type="primary" v-if="!emailBind" >绑定</el-link>
+                                                <el-link type="primary" v-if="!emailBind"
+                                                         @click="emailBindPlain=true">绑定</el-link>
                                                 <el-link type="primary" v-if="emailBind" >解绑</el-link>
                                             </div>
                                         </td>
@@ -110,6 +112,20 @@
                 </el-col>
             </div>
         </div>
+        <el-dialog class="bind-info" title="电话绑定" :visible.sync="mobileBindPlain">
+            <el-input class="bind-mobile" placeholder="请输入电话" v-model="mobile" clearable />
+            <el-input class="bind-code" placeholder="请输入验证码" v-model="code" clearable />
+            <el-button class="code-button" type="success" @click="getMobileCode">点击获取验证码</el-button>
+            <el-button class="bind-submit" type="info" round @click="submitMobileAndCode" >提交</el-button>
+            <el-button class="bind-reset" type="info" round @click="resetMobileAndCode">重置</el-button>
+        </el-dialog>
+        <el-dialog class="bind-info" title="邮箱绑定" :visible.sync="emailBindPlain">
+            <el-input class="bind-mobile" placeholder="请输入邮箱" v-model="email" clearable />
+            <el-input class="bind-code" placeholder="请输入验证码" v-model="code" clearable />
+            <el-button class="code-button" type="success" @click="getEmailCode">点击获取验证码</el-button>
+            <el-button class="bind-submit" type="info" round @click="submitEmailAndCode" >提交</el-button>
+            <el-button class="bind-reset" type="info" round @click="resetEmailAndCode">重置</el-button>
+        </el-dialog>
         <image-footer/>
     </div>
 </template>
@@ -137,6 +153,7 @@
 				isSrc: false,
                 password: "",
                 mobile: '',
+                code: '',
                 email: '',
                 emailBind: false,
                 mobileBind: false,
@@ -151,7 +168,9 @@
                     email: '',
                     photo: '',
                     reName: ''
-				}
+				},
+                mobileBindPlain: false,
+                emailBindPlain: false,
             }
         },
         created() {
@@ -202,7 +221,59 @@
 					_self.email = res.data.data.email;
 					_self.reName = res.data.data.reName;
 				}).catch(function(res) {});
-			}
+			},
+            // 获取手机验证码
+            getMobileCode: function() {
+                _self = this;
+                let param = {"mobile":_self.mobile};
+                alert(JSON.stringify(param));
+            },
+            // 提交需要绑定的手机号和验证码
+            submitMobileAndCode: function() {
+                _self = this;
+                let mobile = _self.mobile;
+                let code = _self.code;
+                let param = {"mobile":mobile, "code":code};
+                alert(JSON.stringify(param));
+            },
+            // 重置信息
+            resetMobileAndCode: function() {
+                _self = this;
+                _self.mobile = '';
+                _self.code = '';
+            },
+            // 获取邮箱验证码
+            getEmailCode: function() {
+                _self = this;
+                let email = _self.email;
+                let param = {"email": email};
+                alert(JSON.stringify(param));
+            },
+            // 提交需要绑定的邮箱和验证码
+            submitEmailAndCode: function() {
+                _self = this;
+                let email = _self.email;
+                let code = _self.code;
+                let param = {"email":email, "code":code};
+                alert(JSON.stringify(param));
+            },
+            // 重置信息
+            resetEmailAndCode: function() {
+                _self = this;
+                _self.email = '';
+                _self.code = '';
+            },
+            // 获取个人身份
+            getIdCard: function() {
+                let key = "e34eeaf5cd7b7c34d9f367e076750fb5";
+                let card = "620523199408181756";
+                let url = "/api/juhe/idcard/index?key=" + key +"&cardno=" + card;
+                this.$axios.get(url).then(function(res) {
+                    alert(JSON.stringify(res));
+                }).catch(function(res) {
+                    console.log("获取身份失败")
+                })
+            }
         }
     }
 </script>
