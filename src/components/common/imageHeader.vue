@@ -71,7 +71,10 @@
                 province: [],
                 city: [],
                 dateTime: '',
-                weather: {},
+                weather: {
+                    direct: '',
+                    temperature: '',
+				},
                 visibleAdmin: false,
 				personInfo: {
                     username: "",
@@ -90,8 +93,8 @@
 			}
 		},
         created() {
-            // this.getProvince();
-            // this.getWeather();
+            this.getProvince();
+            this.getWeather();
             this.getDate();
             this.getCode();
             this.getAdminInfo();

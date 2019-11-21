@@ -20,16 +20,16 @@
                                             头像
                                         </td>
                                         <td class="per-table-cont-icon" >
-												<span v-if="!isSrc" >
-													<el-avatar :size="70" src="https://empty" class="per-info-icon" >
-														<img alt="头像" :src="photo"/>
-                                            		</el-avatar>
-												</span>
-                                                <span v-if="isSrc" >
-													<el-avatar :size="70" src="https://empty" class="per-info-icon" >
-														<img alt="头像" :src="src"/>
-													</el-avatar>
-												</span>
+											<span v-if="!isSrc" >
+												<el-avatar :size="70" src="https://empty" class="per-info-icon" >
+													<img alt="头像" :src="photo"/>
+												</el-avatar>
+											</span>
+											<span v-if="isSrc" >
+												<el-avatar :size="70" src="https://empty" class="per-info-icon" >
+													<img alt="头像" :src="src"/>
+												</el-avatar>
+											</span>
                                             <el-button class="edit-icon" type="primary"
                                                        icon="el-icon-edit" circle title="上传头像"></el-button>
                                         </td>
@@ -54,7 +54,8 @@
 												<span v-if="reNameBind" >{{reName}}</span>
 											</div>
 											<div class="reName-bind-active" >
-												<el-link type="primary" v-if="!reNameBind" @click="getIdCard" >去认证</el-link>
+												<el-link type="primary" v-if="!reNameBind" @click="getIdCard" >
+													去认证</el-link>
 												<el-link type="primary" v-if="reNameBind" >已认证</el-link>
 											</div>
 										</td>

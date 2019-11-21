@@ -89,15 +89,16 @@
 .contentDirect {
 	position: absolute;
 	left: 175px;
+	width: 150px;
 }
 .contentTemperature {
 	position: absolute;
-	left: 260px;
+	left: 325px;
 }
 
 .contentWeather {
 	position: absolute;
-	left: 335px;
+	left: 431px;
 }
 
 .login, .adminDropDown {
