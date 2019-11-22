@@ -94,11 +94,13 @@
 .contentTemperature {
 	position: absolute;
 	left: 325px;
+	width: 100px;
 }
 
 .contentWeather {
 	position: absolute;
 	left: 431px;
+	width: 100px;
 }
 
 .login, .adminDropDown {

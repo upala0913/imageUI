@@ -114,7 +114,7 @@
             },
             // 获取城市信息
             getCity: function(event) {
-                _self.city = [];
+                _self = this;
                 let province = _self.province;
                 let length = province.length;
                 let i = 0;
@@ -126,6 +126,7 @@
                 }
                 let url = "/api/jisu/area/city?parentid="+_self.parentId+"&appkey=" + key;
                 this.$axios.get(url).then(function(res) {
+                    console.log(res);
                     _self.city = res.data.result;
                 }).catch(function(res) {
                     _self.$message({
@@ -141,7 +142,14 @@
                 let key = "3fdd4ff8cc3f97e2f547623ebe0d3086";
                 let url = "/api/juhe/simpleWeather/query?city="+ event +"&key=" + key;
                 this.$axios.get(url).then(function(res) {
-                    _self.weather = res.data.result.future[0];
+                    if (res.error_code === 207301) {
+                        _self.$message({
+                            message: res.reason,
+                            type: 'error'
+                        });
+					} else {
+                        _self.weather = res.data.result.future[0];
+					}
                 }).catch(function(res) {
                     console.log(res);
                 });
