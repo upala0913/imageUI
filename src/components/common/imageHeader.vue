@@ -95,8 +95,8 @@
         created() {
             this.getProvince();
             this.getDate();
-            // this.getCode();
-            // this.getAdminInfo();
+            this.getCode();
+            this.getAdminInfo();
         },
 		methods: {
             // 获取省份信息
