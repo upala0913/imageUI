@@ -11,11 +11,11 @@
 			<i class="iconfont iconchengshi iconProvince" title="城市" ></i>
 			<el-select class="province" clearable v-model="provinceValue" placeholder="请选择省" value="0"
 					   @change="getCity" >
-				<el-option v-for="item in province" :key="item.id" :value="item.name"></el-option>
+				<el-option v-for="item in province" :key="item.ident" :value="item.name"></el-option>
 			</el-select>
 			<el-select class="city" clearable v-model="cityValue" placeholder="请选择市/区" value="0"
 					   @change="getWeather">
-				<el-option v-for="item in city" :key="item.id" :value="item.name" ></el-option>
+				<el-option v-for="item in city" :key="item.ident" :value="item.name" ></el-option>
 			</el-select>
 			<!-- 天气 -->
 			<div class="info" >
@@ -94,19 +94,19 @@
 		},
         created() {
             this.getProvince();
-            this.getWeather();
             this.getDate();
-            this.getCode();
-            this.getAdminInfo();
+            // this.getCode();
+            // this.getAdminInfo();
         },
 		methods: {
             // 获取省份信息
             getProvince: function () {
                 _self = this;
-                let url = "/api/jisu/area/province?appkey=" + key;
-                this.$axios.get(url).then(function(res) {
+                let url = "/api/poi/upload/queryProvince";
+                let param = {"parentId": 0};
+                this.$axios.post(url, param).then(function(res) {
                     if (res.status === 200) {
-                        _self.province = res.data.result;
+                        _self.province = res.data.data;
                     }
                 }).catch(function(res) {
                     console.log(res);
@@ -114,20 +114,21 @@
             },
             // 获取城市信息
             getCity: function(event) {
+                console.log(event);
                 _self = this;
                 let province = _self.province;
                 let length = province.length;
                 let i = 0;
                 for (i=0;i<length;i++) {
                     if (event === province[i].name) {
-                        _self.parentId = province[i].id;
+                        _self.parentId = province[i].ident;
                         break;
                     }
                 }
-                let url = "/api/jisu/area/city?parentid="+_self.parentId+"&appkey=" + key;
-                this.$axios.get(url).then(function(res) {
-                    console.log(res);
-                    _self.city = res.data.result;
+                let url = "/api/poi/upload/queryProvince";
+                let param = {"parentId": _self.parentId};
+                this.$axios.post(url, param).then(function(res) {
+                    _self.city = res.data.data;
                 }).catch(function(res) {
                     _self.$message({
                         message: "请求出错： " + res,

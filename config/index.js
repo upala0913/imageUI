@@ -26,11 +26,12 @@ module.exports = {
                     '^/api/juhe': ''
                 }
             },
-            '/api/jisu': {
-                target: 'http://api.jisuapi.com/',
+            '/api/poi': {
+                target: 'http://47.111.103.50:8082/',
+                // target: 'http://127.0.0.1/',
                 changeOrigin: true,
                 pathRewrite: {
-                    '^/api/jisu': ''
+                    '^/api/poi': ''
                 },
             }
         },
