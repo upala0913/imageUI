@@ -114,8 +114,9 @@
             },
             // 获取城市信息
             getCity: function(event) {
-                console.log(event);
                 _self = this;
+				_self.cityValue = '';
+				_self.weather = {};
                 let province = _self.province;
                 let length = province.length;
                 let i = 0;
@@ -128,7 +129,14 @@
                 let url = "/api/poi/upload/queryProvince";
                 let param = {"parentId": _self.parentId};
                 this.$axios.post(url, param).then(function(res) {
-                    _self.city = res.data.data;
+                	if (res.data.status === 1001) {
+						_self.$message({
+							message: "该地区没有城市",
+							type: 'warning'
+						});
+					} else {
+						_self.city = res.data.data;
+					}
                 }).catch(function(res) {
                     _self.$message({
                         message: "请求出错： " + res,
@@ -139,13 +147,13 @@
             // 获取天气
             getWeather: function(event) {
                 _self = this;
-                console.log(event);
                 let key = "3fdd4ff8cc3f97e2f547623ebe0d3086";
                 let url = "/api/juhe/simpleWeather/query?city="+ event +"&key=" + key;
                 this.$axios.get(url).then(function(res) {
-                    if (res.error_code === 207301) {
+                	console.log(res);
+                    if (res.data.error_code === 207301) {
                         _self.$message({
-                            message: res.reason,
+                            message: res.data.reason,
                             type: 'error'
                         });
 					} else {
