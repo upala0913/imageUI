@@ -119,8 +119,7 @@
 				_self.weather = {};
                 let province = _self.province;
                 let length = province.length;
-                let i = 0;
-                for (i=0;i<length;i++) {
+                for (let i=0;i<length;i++) {
                     if (event === province[i].name) {
                         _self.parentId = province[i].ident;
                         break;

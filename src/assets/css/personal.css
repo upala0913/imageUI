@@ -142,3 +142,27 @@
     width: 1000px;
     left: 180px;
 }
+.birthday, .idCard, .reName {
+    position: relative;
+    width: 300px;
+    left: 60px;
+}
+.reName {
+    top: -30px;
+}
+.idCard {
+    top: -20px;
+}
+.birthday {
+    top: -10px;
+}
+.idCard-submit {
+    position: relative;
+    top: 50px;
+    left: -180px;
+}
+.idCard-reset {
+    position: relative;
+    top: 10px;
+    left: 240px;
+}

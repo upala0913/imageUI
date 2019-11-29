@@ -54,7 +54,7 @@
 												<span v-if="reNameBind" >{{reName}}</span>
 											</div>
 											<div class="reName-bind-active" >
-												<el-link type="primary" v-if="!reNameBind" @click="getIdCard" >
+												<el-link type="primary" v-if="!reNameBind" @click="reNamePlain=true" >
 													去认证</el-link>
 												<el-link type="primary" v-if="reNameBind" >已认证</el-link>
 											</div>
@@ -66,8 +66,6 @@
                                             密码
                                         </td>
                                         <td class="per-table-cont" >
-                                            <el-input v-model="password" disabled show-password class="password">
-                                            </el-input>
                                             <el-button type="primary" icon="el-icon-edit" circle title="修改密码">
                                             </el-button>
                                         </td>
@@ -113,6 +111,14 @@
                 </el-col>
             </div>
         </div>
+        <el-dialog class="bind-info" title="实名认证" :visible.sync="reNamePlain">
+            <el-input class="reName" placeholder="请输入实名" v-model="reName" clearable />
+            <el-input class="idCard" placeholder="请输入身份证号" v-model="idCard" clearable />
+            <el-date-picker class="birthday" v-model="birthday" type="date" format="yyyy年MM月dd日"
+                            placeholder="选择日期"></el-date-picker>
+            <el-button class="idCard-submit" type="success" round @click="getIdCard" >认证</el-button>
+            <el-button class="idCard-reset" type="success" round @click="resetIdCard">取消</el-button>
+        </el-dialog>
         <el-dialog class="bind-info" title="电话绑定" :visible.sync="mobileBindPlain">
             <el-input class="bind-mobile" placeholder="请输入电话" v-model="mobile" clearable />
             <el-input class="bind-code" placeholder="请输入验证码" v-model="code" clearable />
@@ -172,6 +178,9 @@
 				},
                 mobileBindPlain: false,
                 emailBindPlain: false,
+                reNamePlain: false,
+                idCard: '',
+                birthday: '',
             }
         },
         created() {
@@ -264,16 +273,54 @@
                 _self.email = '';
                 _self.code = '';
             },
+            tipInfo: function(param1, param2) {
+                _self.$message({
+                    message: param1,
+                    type: param2
+                });
+            },
+            formatNumber: function(param) {
+                return param < 10 ? "0" + param : param;
+            },
+            formatDate: function(param) {
+                _self = this;
+                let date = new Date(_self.birthday);
+                let fullYear = date.getFullYear();
+                let month = date.getMonth() + 1;
+                let day = date.getDate();
+                return fullYear+"年"+_self.formatNumber(month)+"月"+_self.formatNumber(day)+"日";
+            },
             // 获取个人身份
             getIdCard: function() {
+                _self = this;
+                let formatDate = _self.formatDate(_self.birthday);
+                let data = {"reName": _self.reName};
                 let key = "e34eeaf5cd7b7c34d9f367e076750fb5";
-                let card = "620523199408181756";
-                let url = "/api/juhe/idcard/index?key=" + key +"&cardno=" + card;
+                let url = "/api/juhe/idcard/index?key=" + key +"&cardno=" + _self.idCard;
                 this.$axios.get(url).then(function(res) {
-                    alert(JSON.stringify(res));
+                    console.log(res.data.result.birthday);
+                    console.log(formatDate);
+                    if (res.data.resultcode == 200) {
+                        if (res.data.result.birthday === formatDate) {
+                            let path = "/api/upala/personal/reName";
+                            _self.$axios.post(path, data).then(function(res) {
+                                alert(true);
+                            }).catch(function(res) {
+                                _self.tipInfo("请求出错", "error");
+                            })
+                        } else {
+                            _self.tipInfo("身份有误", "error");
+                        }
+                    } else {
+                        _self.tipInfo("实名认证失败！！！", "error");
+                    }
                 }).catch(function(res) {
                     console.log("获取身份失败")
                 })
+            },
+            resetIdCard: function() {
+                _self = this;
+                _self.reNamePlain = false;
             }
         }
     }
