@@ -315,7 +315,7 @@
                         _self.tipInfo("实名认证失败！！！", "error");
                     }
                 }).catch(function(res) {
-                    console.log("获取身份失败")
+                    console.log("获取身份失败");
                 })
             },
             resetIdCard: function() {
