@@ -196,7 +196,6 @@
                 _self = this;
                 let admin = _self.$storage.get("admin");
                 _self.perId = admin.id;
-                console.log(_self.perId);
 			},
             mobileIsBind: function() {
                 _self = this;
@@ -227,9 +226,18 @@
 					_self.username = res.data.data.userName;
 					_self.password = res.data.data.userPass;
 					_self.src = res.data.data.photo;
-					_self.mobile = res.data.data.mobile;
-					_self.email = res.data.data.email;
-					_self.reName = res.data.data.reName;
+					if (res.data.data.mobile !== null) {
+                        _self.mobile = res.data.data.mobile;
+                        _self.mobileBind = true;
+                    }
+					if (res.data.data.email !== null) {
+                        _self.email = res.data.data.email;
+                        _self.emailBind = true;
+                    }
+					if (res.data.data.reName !== null) {
+                        _self.reName = res.data.data.reName;
+                        _self.reNameBind = true;
+                    }
 				}).catch(function(res) {});
 			},
             // 获取手机验证码
@@ -298,8 +306,6 @@
                 let key = "e34eeaf5cd7b7c34d9f367e076750fb5";
                 let url = "/api/juhe/idcard/index?key=" + key +"&cardno=" + _self.idCard;
                 this.$axios.get(url).then(function(res) {
-                    console.log(res.data.result.birthday);
-                    console.log(formatDate);
                     if (res.data.resultcode == 200) {
                         if (res.data.result.birthday === formatDate) {
                             let path = "/api/upala/personal/reName";
