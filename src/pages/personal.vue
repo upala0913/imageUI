@@ -56,7 +56,7 @@
 											<div class="reName-bind-active" >
 												<el-link type="primary" v-if="!reNameBind" @click="reNamePlain=true" >
 													去认证</el-link>
-												<el-link type="primary" v-if="reNameBind" >已认证</el-link>
+												<el-link type="primary" v-if="reNameBind" @click="cancelReName" >已认证</el-link>
 											</div>
 										</td>
 									</tr>
@@ -83,7 +83,8 @@
                                             <div class="mobile-bind-active" >
                                                 <el-link type="primary" v-if="!mobileBind"
                                                          @click="mobileBindPlain=true">绑定</el-link>
-                                                <el-link type="primary" v-if="mobileBind" >解绑</el-link>
+                                                <el-link type="primary" v-if="mobileBind" @click="cancelMobileBind" >
+                                                    解绑</el-link>
                                             </div>
                                         </td>
                                     </tr>
@@ -100,7 +101,8 @@
                                             <div class="email-bind-active" >
                                                 <el-link type="primary" v-if="!emailBind"
                                                          @click="emailBindPlain=true">绑定</el-link>
-                                                <el-link type="primary" v-if="emailBind" >解绑</el-link>
+                                                <el-link type="primary" v-if="emailBind" @click="cancelEmailBind" >
+                                                    解绑</el-link>
                                             </div>
                                         </td>
                                     </tr>
@@ -184,7 +186,6 @@
             }
         },
         created() {
-            this.bindData();
             this.getPersonInfo();
             this.mobileIsBind();
             this.emailIsBind();
@@ -192,11 +193,6 @@
             this.srcIsBind();
         },
         methods: {
-            bindData: function() {
-                _self = this;
-                let admin = _self.$storage.get("admin");
-                _self.perId = admin.id;
-			},
             mobileIsBind: function() {
                 _self = this;
                 let $mobile = this.mobile;
@@ -218,41 +214,88 @@
                 console.log($src);
                 $src === ''?_self.isSrc = false:_self.isSrc = true;
             },
+            // 获取个人信息
 			getPersonInfo: function() {
                 _self = this;
-                let param = {"id": _self.perId};
+                let id = _self.$route.query.id;
+                _self.perId = id;
+                _self.$storage.set("id", id);
+                let param = {"id": id};
                 let url = '/api/upala/user/getPersonInfo';
                 this.$axios.post(url, param).then(function(res) {
-					_self.username = res.data.data.userName;
-					_self.password = res.data.data.userPass;
-					_self.src = res.data.data.photo;
-					if (res.data.data.mobile !== null) {
-                        _self.mobile = res.data.data.mobile;
-                        _self.mobileBind = true;
-                    }
-					if (res.data.data.email !== null) {
-                        _self.email = res.data.data.email;
-                        _self.emailBind = true;
-                    }
-					if (res.data.data.reName !== null) {
-                        _self.reName = res.data.data.reName;
-                        _self.reNameBind = true;
+                    if (res.data.code === 200) {
+                        _self.username = res.data.data.userName;
+                        _self.password = res.data.data.userPass;
+                        _self.src = res.data.data.photo;
+                        if (res.data.data.mobile !== null) {
+                            _self.mobile = res.data.data.mobile;
+                            _self.mobileBind = true;
+                        }
+                        if (res.data.data.email !== null) {
+                            _self.email = res.data.data.email;
+                            _self.emailBind = true;
+                        }
+                        if (res.data.data.reName !== null) {
+                            _self.reName = res.data.data.reName;
+                            _self.reNameBind = true;
+                        }
                     }
 				}).catch(function(res) {});
 			},
-            // 获取手机验证码
+            // 判断字符串是否为空
+            isEmpty: function(param) {
+                let data = param.trim();
+                return data === '' || typeof data === 'undefined';
+            },
+            // 显示信息
+            showInfo: function(message, type) {
+                _self = this;
+                _self.$message({
+                    message: message,
+                    type: type
+                })
+            },
+            // 获取手机短信验证码
             getMobileCode: function() {
                 _self = this;
-                let param = {"mobile":_self.mobile};
-                alert(JSON.stringify(param));
+                if (_self.isEmpty(_self.mobile)) {
+                    _self.$message({
+                        message: "电话号码不能为空",
+                        type: "type"
+                    });
+                } else {
+                    let param = {"mobile":_self.mobile, "username": _self.reName, "id": _self.perId};
+                    let url = "/api/upala/personal/getMobileMessage";
+                    _self.$axios.post(url, param).then(function(res) {
+                        if (res.data.status) {
+                            _self.$message({
+                                message: res.data.message,
+                                type: "info"
+                            })
+                        }
+                    }).catch(function(res) {});
+                }
             },
-            // 提交需要绑定的手机号和验证码
+            // 绑定电话
             submitMobileAndCode: function() {
                 _self = this;
-                let mobile = _self.mobile;
-                let code = _self.code;
-                let param = {"mobile":mobile, "code":code};
-                alert(JSON.stringify(param));
+                if (_self.isEmpty(_self.mobile) || _self.isEmpty(_self.code)) {
+                    _self.$message({
+                        message: "电话号码和验证码不能为空",
+                        type: "error"
+                    });
+                } else {
+                    let param = {"mobile": _self.mobile, "check": _self.code, "id": _self.perId};
+                    let url = "/api/upala/personal/bindMobile";
+                    _self.$axios.post(url, param).then(function(res) {
+                        if (res.data.status) {
+                            _self.$message({
+                                message: res.data.message,
+                                type: "info",
+                            })
+                        }
+                    }).catch(function(res) {});
+                }
             },
             // 重置信息
             resetMobileAndCode: function() {
@@ -263,29 +306,41 @@
             // 获取邮箱验证码
             getEmailCode: function() {
                 _self = this;
-                let email = _self.email;
-                let param = {"email": email};
-                alert(JSON.stringify(param));
+                if (_self.isEmpty(_self.email)) {
+                    _self.showInfo("邮箱不能为空", "error");
+                } else {
+                    let param = {"email": _self.email, "username": _self.reName, "id": _self.perId};
+                    let url = "/api/upala/personal/emailMessage";
+                    _self.$axios.post(url, param).then(function(res) {
+                        console.log(res.data);
+                        if (res.data.status) {
+                            _self.showInfo(res.data.message, "info");
+                        }
+                    }).catch(function(res) {})
+                }
             },
             // 提交需要绑定的邮箱和验证码
             submitEmailAndCode: function() {
                 _self = this;
-                let email = _self.email;
-                let code = _self.code;
-                let param = {"email":email, "code":code};
-                alert(JSON.stringify(param));
+                if (_self.isEmpty(_self.code) || _self.isEmpty(_self.email)) {
+                    _self.showInfo("邮箱或验证码不能为空", "error")
+                } else {
+                    let param = {"email":_self.email, "check":_self.code, "id": _self.perId};
+                    let url = "/api/upala/personal/bindEmail";
+                    _self.$axios.post(url, param).then(function(res) {
+                        if (res.data.status) {
+                            _self.showInfo(res.data.message, "info");
+                        } else {
+                            _self.showInfo(res.data.message, "error");
+                        }
+                    }).catch(function(res) {})
+                }
             },
             // 重置信息
             resetEmailAndCode: function() {
                 _self = this;
                 _self.email = '';
                 _self.code = '';
-            },
-            tipInfo: function(param1, param2) {
-                _self.$message({
-                    message: param1,
-                    type: param2
-                });
             },
             formatNumber: function(param) {
                 return param < 10 ? "0" + param : param;
@@ -309,16 +364,20 @@
                     if (res.data.resultcode == 200) {
                         if (res.data.result.birthday === formatDate) {
                             let path = "/api/upala/personal/reName";
-                            _self.$axios.post(path, data).then(function(res) {
-                                alert(true);
+                            let param = {"id": _self.perId, "reName": _self.reName};
+                            _self.$axios.post(path, param).then(function(res) {
+                                if (res.data.code === 200) {
+                                    _self.reName = _self.username;
+                                    _self.reNameBind = true;
+                                }
                             }).catch(function(res) {
-                                _self.tipInfo("请求出错", "error");
+                                _self.showInfo("请求出错", "error");
                             })
                         } else {
-                            _self.tipInfo("身份有误", "error");
+                            _self.showInfo("身份有误", "error");
                         }
                     } else {
-                        _self.tipInfo("实名认证失败！！！", "error");
+                        _self.showInfo("实名认证失败！！！", "error");
                     }
                 }).catch(function(res) {
                     console.log("获取身份失败");
@@ -327,7 +386,19 @@
             resetIdCard: function() {
                 _self = this;
                 _self.reNamePlain = false;
-            }
+            },
+            // 取消认证
+            cancelReName: function() {
+                this.showInfo("该功能还未开通", "info");
+            },
+            // 解绑电话
+            cancelMobileBind: function() {
+                this.showInfo("该功能还未开通", "info");
+            },
+            // 解绑邮箱
+            cancelEmailBind: function() {
+                this.showInfo("该功能还未开通", "info");
+            },
         }
     }
 </script>

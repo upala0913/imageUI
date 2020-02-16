@@ -188,8 +188,9 @@
                 _self = this;
                 let url = "/api/upala/user/code/getCodeInfo";
                 this.$axios.post(url).then(function(res) {
-                    if (res.status === 200) {
-                        _self.codeInfo = res.data.message;
+                	console.log(res.data);
+                    if (res.status === 200 && res.data.status === true) {
+                        _self.codeInfo = res.data.data;
                     }
                 }).catch(function(res) {
                     _self.$message({
@@ -216,21 +217,14 @@
                         md = _self.getMD5(password);
                     }
                     let param = {"username":username, "password":md, "code":code};
-                    console.log(JSON.stringify(param));
                     let url = "/api/upala/user/login";
                     this.$axios.post(url, param).then(function(res) {
-                        if (res.data.status === 200) {
+                    	console.log(res);
+                        if (res.data.code === 200) {
                             _self.admin = res.data.data;
                             _self.visibleAdmin = true;
-                            _self.$storage.set("admin", res.data.data);
                         }
-                        if (res.data.status === 10000) {
-                            _self.$message({
-                                message: res.data.message,
-                                type: 'error'
-                            });
-                        }
-                        if (res.data.status === 10001) {
+                        if (res.data.code === 3426) {
                             _self.$message({
                                 message: res.data.message,
                                 type: 'error'
@@ -257,6 +251,7 @@
             getMD5: function(param) {
                 return md5(param.toUpperCase());
             },
+			// 退出登录
             logout: function() {
                 _self = this;
                 let url = "/api/upala/user/logout";
@@ -266,7 +261,6 @@
                         _self.visibleAdmin = false;
                         _self.cancel();
 						_self.$router.push({path: '/'});
-                        _self.$storage.remove("admin");
                     }
                 }).catch(function(res) {
                     _self.$message({
@@ -275,12 +269,13 @@
                     });
                 });
             },
+			// 进入个人中心页面
             toPersonal: function() {
                 _self = this;
                 if (_self.admin.userName === '')
                     _self.$router.push({path: '/'});
                 else {
-                    _self.$router.push({path: '/personal'});
+                    _self.$router.push({path: '/personal', query: {"id":_self.admin.id}});
 				}
             },
             getAdminInfo: function() {
