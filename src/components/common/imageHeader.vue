@@ -8,38 +8,38 @@
 		</div>
 		<div class="sky-info" >
 			<!-- 城市 -->
-			<i class="iconfont iconchengshi iconProvince" title="城市" ></i>
+			<i class="iconfont iconchengshi iconProvince" title="城市" />
 			<el-select class="province" clearable v-model="provinceValue" placeholder="请选择省" value="0"
 					   @change="getCity" >
-				<el-option v-for="item in province" :key="item.ident" :value="item.name"></el-option>
+				<el-option v-for="item in province" :key="item.ident" :value="item.name" />
 			</el-select>
 			<el-select class="city" clearable v-model="cityValue" placeholder="请选择市/区" value="0"
 					   @change="getWeather">
-				<el-option v-for="item in city" :key="item.ident" :value="item.name" ></el-option>
+				<el-option v-for="item in city" :key="item.ident" :value="item.name" />
 			</el-select>
 			<!-- 天气 -->
 			<div class="info" >
-				<i class="iconfont iconriqidate3 iconDate" title="日期" ></i>
+				<i class="iconfont iconriqidate3 iconDate" title="日期" />
 				<div class="grid-content bg-purple contentDate">{{dateTime}}</div>
-				<i class="iconfont iconfeng iconDirect" title="风向" ></i>
+				<i class="iconfont iconfeng iconDirect" title="风向" />
 				<div class="grid-content bg-purple contentDirect">{{weather.direct}}</div>
-				<i class="iconfont iconwendu iconTemperature" title="温度" ></i>
+				<i class="iconfont iconwendu iconTemperature" title="温度" />
 				<div class="grid-content bg-purple contentTemperature">{{weather.temperature}}</div>
-				<i class="iconfont iconHailstorm-Night iconWeather" title="天气" ></i>
+				<i class="iconfont iconHailstorm-Night iconWeather" title="天气" />
 				<div class="grid-content bg-purple contentWeather">{{weather.weather}}</div>
 			</div>
 		</div>
 
 		<el-popover v-if="!visibleAdmin"  placement="bottom" title="请输入信息" width="380" v-model="visible1"
 					trigger="manual">
-			<el-input placeholder="请输入账号/手机号/邮箱" v-model="personInfo.username" clearable class="username"></el-input>
-			<el-input placeholder="请输入密码" v-model="personInfo.password" show-password class="password"></el-input>
-			<el-input placeholder="请输入验证码" v-model="code" clearable class="code"></el-input>
+			<el-input placeholder="请输入账号/手机号/邮箱" v-model="personInfo.username" clearable class="username" />
+			<el-input placeholder="请输入密码" v-model="personInfo.password" show-password class="password" />
+			<el-input placeholder="请输入验证码" v-model="code" clearable class="code" />
 			<el-button class="loginCode" @click="getCode" >{{codeInfo}}</el-button>
 			<el-button type="primary" round class="submit" @click="submit" title="提交">提交</el-button>
 			<el-button type="primary" round @click="cancel" class="cancel" title="取消" >取消</el-button>
 			<el-button type="primary" icon="el-icon-user" slot="reference" circle title="登陆"
-					   @click="visible1 = !visible1" class="login"></el-button>
+					   @click="visible1 = !visible1" class="login" />
 		</el-popover>
 		<el-dropdown size="mini" split-button type="primary" v-if="visibleAdmin" class="adminDropDown">
 			{{admin.userName}}
@@ -99,6 +99,13 @@
             this.getAdminInfo();
         },
 		methods: {
+			// 显示信息方法
+			showInfo: function(message, type) {
+				this.$message({
+					message: message,
+					type: type
+				});
+			},
             // 获取省份信息
             getProvince: function () {
                 _self = this;
@@ -109,7 +116,7 @@
                         _self.province = res.data.data;
                     }
                 }).catch(function(res) {
-                    console.log(res);
+					_self.showInfo("请求失败：" + res, "error");
                 });
             },
             // 获取城市信息
@@ -129,18 +136,12 @@
                 let param = {"parentId": _self.parentId};
                 this.$axios.post(url, param).then(function(res) {
                 	if (res.data.status === 1001) {
-						_self.$message({
-							message: "该地区没有城市",
-							type: 'warning'
-						});
+						_self.showInfo("该地区没有城市", "warning");
 					} else {
 						_self.city = res.data.data;
 					}
                 }).catch(function(res) {
-                    _self.$message({
-                        message: "请求出错： " + res,
-                        type: 'warning'
-                    });
+					_self.showInfo("请求出错： " + res, "warning");
                 });
             },
             // 获取天气
@@ -149,17 +150,13 @@
                 let key = "3fdd4ff8cc3f97e2f547623ebe0d3086";
                 let url = "/api/juhe/simpleWeather/query?city="+ event +"&key=" + key;
                 this.$axios.get(url).then(function(res) {
-                	console.log(res);
                     if (res.data.error_code === 207301) {
-                        _self.$message({
-                            message: res.data.reason,
-                            type: 'error'
-                        });
+						_self.showInfo("信息：" + res.data.reason, "error");
 					} else {
                         _self.weather = res.data.result.future[0];
 					}
                 }).catch(function(res) {
-                    console.log(res);
+					_self.showInfo("请求输错：" + res, "error");
                 });
             },
             // 获取日期
@@ -193,10 +190,7 @@
                         _self.codeInfo = res.data.data;
                     }
                 }).catch(function(res) {
-                    _self.$message({
-                        message: '获取验证码出错  ' + res,
-                        type: 'error'
-                    });
+					_self.showInfo("获取验证码出错" + res, "error");
                 });
             },
             submit: function() {
@@ -205,10 +199,7 @@
                 let password = _self.personInfo.password.trim();
                 let code = _self.code;
                 if (username === '' || password === '') {
-                    _self.$message({
-                        message: '用户名密码不能为空',
-                        type: 'error'
-                    });
+					_self.showInfo("用户名密码不能为空", "error");
                 } else {
                     let md = '';
                     if (password.trim() === '') {
@@ -219,23 +210,16 @@
                     let param = {"username":username, "password":md, "code":code};
                     let url = "/api/upala/user/login";
                     this.$axios.post(url, param).then(function(res) {
-                    	console.log(res);
                         if (res.data.code === 200) {
                             _self.admin = res.data.data;
                             _self.visibleAdmin = true;
                         }
                         if (res.data.code === 3426) {
-                            _self.$message({
-                                message: res.data.message,
-                                type: 'error'
-                            });
+							_self.showInfo("信息：" + res.data.message, "error");
                         }
                         _self.getCode();
                     }).catch(function(res) {
-                        _self.$message({
-                            message: '登录失败  ' + res,
-                            type: 'error'
-                        });
+						_self.showInfo("登录失败：" + res, "error");
                         _self.getCode();
                     });
                 }
@@ -263,10 +247,7 @@
 						_self.$router.push({path: '/'});
                     }
                 }).catch(function(res) {
-                    _self.$message({
-                        message: "请求出错： " + res,
-                        type: 'error'
-                    });
+					_self.showInfo("请求出错：" + res, "error");
                 });
             },
 			// 进入个人中心页面
@@ -287,10 +268,7 @@
                         _self.visibleAdmin = true;
                     }
                 }).catch(function(res) {
-                    _self.$message({
-                        message: '请求出错 ' + res,
-                        type: 'error'
-                    });
+					_self.showInfo("请求出错：" + res, "error");
                 });
             },
 			toCore: function() {

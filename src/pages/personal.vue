@@ -16,7 +16,7 @@
                                 <table class="per-table" >
                                     <tr>
                                         <td class="per-table-title-icon" >
-                                            <i class="el-icon-s-custom" ></i>
+                                            <i class="el-icon-s-custom" />
                                             头像
                                         </td>
                                         <td class="per-table-cont-icon" >
@@ -31,12 +31,12 @@
 												</el-avatar>
 											</span>
                                             <el-button class="edit-icon" type="primary"
-                                                       icon="el-icon-edit" circle title="上传头像"></el-button>
+                                                       icon="el-icon-edit" circle title="上传头像" />
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="per-table-title" >
-                                            <i class="el-icon-user" ></i>
+                                            <i class="el-icon-user" />
                                             昵称
                                         </td>
                                         <td class="per-table-cont" >
@@ -45,7 +45,7 @@
                                     </tr>
 									<tr>
 										<td class="per-table-title" >
-											<i class="el-icon-user" ></i>
+											<i class="el-icon-user" />
 											真实名称
 										</td>
 										<td class="per-table-cont" >
@@ -62,7 +62,7 @@
 									</tr>
                                     <tr>
                                         <td class="per-table-title" >
-                                            <i class="el-icon-view" ></i>
+                                            <i class="el-icon-view" />
                                             密码
                                         </td>
                                         <td class="per-table-cont" >
@@ -72,7 +72,7 @@
                                     </tr>
                                     <tr>
                                         <td class="per-table-title" >
-                                            <i class="el-icon-phone-outline" ></i>
+                                            <i class="el-icon-phone-outline" />
                                             电话
                                         </td>
                                         <td class="per-table-cont" >
@@ -90,7 +90,7 @@
                                     </tr>
                                     <tr>
                                         <td class="per-table-title" >
-                                            <i class="el-icon-message" ></i>
+                                            <i class="el-icon-message" />
                                             邮箱
                                         </td>
                                         <td class="per-table-cont" >
@@ -117,7 +117,7 @@
             <el-input class="reName" placeholder="请输入实名" v-model="reName" clearable />
             <el-input class="idCard" placeholder="请输入身份证号" v-model="idCard" clearable />
             <el-date-picker class="birthday" v-model="birthday" type="date" format="yyyy年MM月dd日"
-                            placeholder="选择日期"></el-date-picker>
+                            placeholder="选择日期" />
             <el-button class="idCard-submit" type="success" round @click="getIdCard" >认证</el-button>
             <el-button class="idCard-reset" type="success" round @click="resetIdCard">取消</el-button>
         </el-dialog>
@@ -259,19 +259,13 @@
             getMobileCode: function() {
                 _self = this;
                 if (_self.isEmpty(_self.mobile)) {
-                    _self.$message({
-                        message: "电话号码不能为空",
-                        type: "type"
-                    });
+                    _self.showInfo("电话号码不能为空：", "warning");
                 } else {
                     let param = {"mobile":_self.mobile, "username": _self.reName, "id": _self.perId};
                     let url = "/api/upala/personal/getMobileMessage";
                     _self.$axios.post(url, param).then(function(res) {
                         if (res.data.status) {
-                            _self.$message({
-                                message: res.data.message,
-                                type: "info"
-                            })
+                            _self.showInfo("信息：" + res.data.message, "info");
                         }
                     }).catch(function(res) {});
                 }
@@ -280,19 +274,13 @@
             submitMobileAndCode: function() {
                 _self = this;
                 if (_self.isEmpty(_self.mobile) || _self.isEmpty(_self.code)) {
-                    _self.$message({
-                        message: "电话号码和验证码不能为空",
-                        type: "error"
-                    });
+                    _self.showInfo("电话号码和验证码不能为空", "error");
                 } else {
                     let param = {"mobile": _self.mobile, "check": _self.code, "id": _self.perId};
                     let url = "/api/upala/personal/bindMobile";
                     _self.$axios.post(url, param).then(function(res) {
                         if (res.data.status) {
-                            _self.$message({
-                                message: res.data.message,
-                                type: "info",
-                            })
+                            _self.showInfo("信息：" + res.data.message, "info");
                         }
                     }).catch(function(res) {});
                 }
@@ -345,7 +333,7 @@
             formatNumber: function(param) {
                 return param < 10 ? "0" + param : param;
             },
-            formatDate: function(param) {
+            formatDate: function() {
                 _self = this;
                 let date = new Date(_self.birthday);
                 let fullYear = date.getFullYear();
@@ -357,7 +345,7 @@
             getIdCard: function() {
                 _self = this;
                 let formatDate = _self.formatDate(_self.birthday);
-                let data = {"reName": _self.reName};
+                // let data = {"reName": _self.reName};
                 let key = "e34eeaf5cd7b7c34d9f367e076750fb5";
                 let url = "/api/juhe/idcard/index?key=" + key +"&cardno=" + _self.idCard;
                 this.$axios.get(url).then(function(res) {
@@ -371,7 +359,7 @@
                                     _self.reNameBind = true;
                                 }
                             }).catch(function(res) {
-                                _self.showInfo("请求出错", "error");
+                                _self.showInfo("请求出错:" + res, "error");
                             })
                         } else {
                             _self.showInfo("身份有误", "error");
@@ -380,7 +368,7 @@
                         _self.showInfo("实名认证失败！！！", "error");
                     }
                 }).catch(function(res) {
-                    console.log("获取身份失败");
+                    _self.showInfo("获取失败：" + res, "error");
                 })
             },
             resetIdCard: function() {
@@ -389,15 +377,47 @@
             },
             // 取消认证
             cancelReName: function() {
-                this.showInfo("该功能还未开通", "info");
+                this.$confirm('不能取消实名认证', '提示', {
+                    confirmButtonText: '确定',
+                    type: 'warning'
+                });
+            },
+            // 解除信息
+            removeInfo: function(url, msg) {
+                let param = {"id": _self.perId};
+                _self.$axios.post(url, param).then((res) => {
+                    if (res.data.status) {
+                        _self.showInfo(msg + "成功解绑", "success");
+                    }
+                }).catch((res) => {
+                    _self.showInfo("请求失败：" + res, "error");
+                });
             },
             // 解绑电话
             cancelMobileBind: function() {
-                this.showInfo("该功能还未开通", "info");
+                _self = this;
+                this.$confirm('此操作将解除电话的绑定, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    let url = "/api/upala/personal/removeMobile";
+                    _self.removeInfo(url, "电话");
+                    _self.$forceUpdate();
+                }).catch(() => {});
             },
             // 解绑邮箱
             cancelEmailBind: function() {
-                this.showInfo("该功能还未开通", "info");
+                _self = this;
+                this.$confirm('此操作将解除邮箱的绑定, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    let url = "/api/upala/personal/removeEmail";
+                    _self.removeInfo(url, "邮箱");
+                    _self.$forceUpdate();
+                }).catch(() => {});
             },
         }
     }
