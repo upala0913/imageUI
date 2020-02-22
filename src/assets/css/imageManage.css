@@ -1,0 +1,55 @@
+.image-header {
+    background-color: #B3C0D1;
+    color: #333;
+    line-height: 100px;
+    height: 100px;
+}
+
+.image-manage-title {
+    float: left;
+    margin-left: 20%;
+    font-size: 30px;
+    color: #ffffff;
+    font-family: '微软雅黑 Light', sans-serif;
+}
+
+.image-manage-list {
+    position: relative;
+    width: 200px;
+    height: 20px;
+    left: 1050px;
+    top: 50px;
+}
+
+.image-manage-list-li {
+    float: left;
+    list-style: none;
+    position: relative;
+    top: -140px;
+    left: 10px;
+}
+
+.image-manage-list-li-text:hover {
+    color: red;
+    cursor: pointer;
+}
+
+.image-aside {
+    background-color: #D3DCE6;
+    color: #333;
+    text-align: center;
+    line-height: 600px;
+    width: 15%;
+    height: 600px;
+    float: left;
+    overflow: auto;
+    margin-left: -131px;
+}
+
+.image-main {
+    background-color: #E9EEF3;
+    color: #333;
+    width: 85%;
+    height: 600px;
+    float: left;
+}

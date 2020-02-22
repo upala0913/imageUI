@@ -1,8 +1,12 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import Core from '@/pages/core.vue'
-import ImageManage from '@/pages/imageManage.vue'
-import Personal from '@/pages/personal.vue'
+import Vue from 'vue';
+import Router from 'vue-router';
+import Core from '../pages/core.vue';
+import ImageManage from '../pages/imageManage.vue';
+import Personal from '../pages/personal.vue';
+import imageInfo from '../pages/image/imageInfo.vue';
+import imageUpload from "../pages/image/imageUpload";
+import imageDiscern from "../pages/image/imageDiscern";
+import imageBase64 from "../pages/image/imageBase64";
 
 Vue.use(Router);
 
@@ -25,7 +29,30 @@ export default new Router({
         {
             path: '/imageManage',
             name: 'imageManage',
-            component: ImageManage
+            component: ImageManage,
+            redirect: "imageInfo",
+            children: [
+                {
+                    path: '/imageInfo',
+                    name: 'imageInfo',
+                    component: imageInfo
+                },
+                {
+                    path: '/imageUpload',
+                    name: 'imageUpload',
+                    component: imageUpload
+                },
+                {
+                    path: '/imageDiscern',
+                    name: 'imageDiscern',
+                    component: imageDiscern
+                },
+                {
+                    path: '/imageBase64',
+                    name: 'imageBase64',
+                    component: imageBase64
+                }
+            ]
         },
         {
             path: '/personal',
