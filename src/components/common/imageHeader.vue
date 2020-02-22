@@ -109,12 +109,14 @@
             // 获取省份信息
             getProvince: function () {
                 _self = this;
-                let url = "/api/poi/upload/queryProvince";
-                let param = {"parentId": 0};
+                let url = "/api/upala/city/getCity";
+                let param = {"id": 0};
                 this.$axios.post(url, param).then(function(res) {
-                    if (res.status === 200) {
+                    if (res.data.status) {
                         _self.province = res.data.data;
-                    }
+                    } else {
+						_self.showInfo("信息：" + res.data.message, "error");
+					}
                 }).catch(function(res) {
 					_self.showInfo("请求失败：" + res, "error");
                 });
@@ -132,13 +134,13 @@
                         break;
                     }
                 }
-                let url = "/api/poi/upload/queryProvince";
-                let param = {"parentId": _self.parentId};
+                let url = "/api/upala/city/getCity";
+                let param = {"id": _self.parentId};
                 this.$axios.post(url, param).then(function(res) {
-                	if (res.data.status === 1001) {
-						_self.showInfo("该地区没有城市", "warning");
-					} else {
+                	if (res.data.status) {
 						_self.city = res.data.data;
+					} else {
+						_self.showInfo("该地区没有城市", "warning");
 					}
                 }).catch(function(res) {
 					_self.showInfo("请求出错： " + res, "warning");
