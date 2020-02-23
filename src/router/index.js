@@ -7,6 +7,7 @@ import imageInfo from '../pages/image/imageInfo.vue';
 import imageUpload from "../pages/image/imageUpload";
 import imageDiscern from "../pages/image/imageDiscern";
 import imageBase64 from "../pages/image/imageBase64";
+import spaceSetting from "../pages/image/spaceSetting";
 
 Vue.use(Router);
 
@@ -51,6 +52,11 @@ export default new Router({
                     path: '/imageBase64',
                     name: 'imageBase64',
                     component: imageBase64
+                },
+                {
+                    path: '/spaceSetting',
+                    name: 'spaceSetting',
+                    component: spaceSetting
                 }
             ]
         },
