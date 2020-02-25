@@ -93,12 +93,23 @@
             }
         },
         created() {
+            this.initPage();
             this.getProvince();
             this.getDate();
             this.getCode();
             this.getAdminInfo();
         },
         methods: {
+            // 初始化
+            initPage: function() {
+                _self = this;
+                if (_self.$global.userId !== "") {
+                    _self.visibleAdmin = true;
+                    _self.admin.userName = _self.$global.username;
+                } else {
+                    _self.visibleAdmin = false;
+                }
+            },
             // 显示信息方法
             showInfo: function (message, type) {
                 this.$message({
@@ -215,6 +226,8 @@
                         if (res.data.code === 200) {
                             _self.admin = res.data.data;
                             _self.visibleAdmin = true;
+                            _self.$global.userId = res.data.data.id;
+                            _self.$global.username = res.data.data.userName;
                         }
                         if (res.data.code === 3426) {
                             _self.showInfo("信息：" + res.data.message, "error");

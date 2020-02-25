@@ -7,6 +7,7 @@ import router from './router'
 import Element from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import storage from 'good-storage'
+import globalVariable from "./assets/js/globalVariable";
 
 import axios from "axios";
 
@@ -14,6 +15,7 @@ Vue.config.productionTip = false;
 Vue.use(Element);
 Vue.prototype.$axios = axios;
 Vue.prototype.$storage = storage;
+Vue.prototype.$global = globalVariable;
 
 new Vue({
     el: '#app',

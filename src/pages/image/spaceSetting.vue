@@ -1,6 +1,23 @@
 <template>
     <div>
         <div class="space-title" >空间设置</div>
+        <div class="space-setting-search" >
+            <label for="name" class="space-setting-search-name-title" >名称：</label>
+            <el-input class="space-setting-search-name" id="name" v-model="nameSearch" placeholder="请输入名称" />
+            <label class="space-setting-search-type-title" >类型：</label>
+            <el-select v-model="type" class="space-setting-search-type" placeholder="请选择">
+                <el-option v-for="item in types" :key="item.value" :label="item.label" :value="item.value"/>
+            </el-select>
+            <label class="space-setting-search-delFlag-title" >删除标记：</label>
+            <el-select v-model="delFlag" class="space-setting-delFlag" placeholder="请选择">
+                <el-option v-for="item in delFlags" :key="item.value" :label="item.label" :value="item.value"/>
+            </el-select>
+            <label class="space-setting-search-delFlagType-title" >删除标记类型：</label>
+            <el-select v-model="delFlagType" class="space-setting-delFlagType" placeholder="请选择">
+                <el-option v-for="item in delFlagTypes" :key="item.value" :label="item.label" :value="item.value"/>
+            </el-select>
+            <el-button class="space-search" type="primary" icon="el-icon-search" @click="getData()">搜索</el-button>
+        </div>
         <hr class="space-hr"/>
         <div class="image-space" >
             <el-table :data="documentSpaces" :stripe="true" :highlight-current-row="true" border style="width:100%">
@@ -41,7 +58,38 @@
                 currentPage: 1,
                 pageSizes: [10, 20, 30, 40],
                 pageSize: 10,
-                total: '',
+                total: 0,
+                nameSearch: '', // 输入名称
+                type: '', // 类型
+                types: [{
+                    value: 0,
+                    label: "图片"
+                }, {
+                    value: 1,
+                    label: '文件'
+                }, {
+                    value: 2,
+                    label: '视频'
+                }, {
+                    value: 3,
+                    label: '其他'
+                }], // 文件类型
+                delFlag: '', // 删除标记
+                delFlags: [{
+                    value: 0,
+                    label: '未删除'
+                }, {
+                    value: 1,
+                    label: '已删除'
+                }], // 删除标记
+                delFlagType: '', // 删除标记类型
+                delFlagTypes: [{
+                    value: 0,
+                    label: '逻辑删除'
+                }, {
+                    value: 1,
+                    label: '物理删除'
+                }], // 删除标记类型
             }
         },
         created() {
@@ -153,6 +201,12 @@
             },
             handleCurrentChange: function(val) {
                 alert(`当前页: ${val}`);
+            },
+            getData: function() {
+                _self = this;
+                let data = {"name": this.nameSearch, "type": this.type, "delFlag": this.delFlag,
+                    "delFlagType": this.delFlagType, "userId": this.$global.userId};
+                alert (JSON.stringify(data));
             }
         }
     }

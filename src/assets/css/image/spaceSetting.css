@@ -29,5 +29,73 @@
 .image-space-page {
     position: relative;
     top: 27px;
-    left: 235px;
+    left: 300px;
+}
+
+.space-setting-search {
+    position: absolute;
+    width: 800px;
+    top: 90px;
+    left: 500px;
+    height: 30px;
+    line-height: 30px;
+}
+
+.space-setting-search-name-title {
+    position: absolute;
+    top: -5px;
+    left: -45px;
+}
+
+.space-setting-search-name {
+    width: 150px;
+    height: 30px;
+    position: absolute;
+    top: -10px;
+    left: -8px;
+}
+
+.space-setting-search-type-title {
+    position: absolute;
+    left: 156px;
+    top: -5px;
+}
+
+.space-setting-search-type {
+    position: absolute;
+    left: 190px;
+    top: -10px;
+    width: 130px;
+}
+
+.space-setting-search-delFlag-title {
+    position: absolute;
+    left: 337px;
+    top: -5px;
+}
+
+.space-setting-delFlag {
+    position: absolute;
+    left: 400px;
+    top: -10px;
+    width: 100px;
+}
+
+.space-setting-search-delFlagType-title {
+    position: absolute;
+    left: 513px;
+    top: -5px;
+}
+
+.space-setting-delFlagType {
+    position: absolute;
+    left: 600px;
+    top: -10px;
+    width: 110px;
+}
+
+.space-search{
+    position: absolute;
+    top: -10px;
+    left: 730px;
 }
