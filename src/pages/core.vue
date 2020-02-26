@@ -66,16 +66,20 @@
             },
             getMessage: function (param) {
                 _self = this;
-                let url = "/api/upala/user/skip/pages";
-                this.$axios.post(url).then(function (res) {
-                    if (res.data.status) {
-                        _self.$router.push({path: param});
-                    } else {
-                        _self.showInfo(res.data.message, "warning");
-                    }
-                }).catch(function (res) {
-                    _self.showInfo('请求出错:' + res.data.message, "error");
-                });
+                if(_self.$global.userId !== "") {
+                    let url = "/api/upala/user/skip/pages";
+                    this.$axios.post(url).then(function (res) {
+                        if (res.data.status) {
+                            _self.$router.push({path: param});
+                        } else {
+                            _self.showInfo(res.data.message, "warning");
+                        }
+                    }).catch(function (res) {
+                        _self.showInfo('请求出错:' + res.data.message, "error");
+                    });
+                } else {
+                    _self.showInfo("请先登录", "warning");
+                }
             },
         }
     }

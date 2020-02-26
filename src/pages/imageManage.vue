@@ -38,11 +38,11 @@
                         <i class="el-icon-data-analysis" />
                         <span>图片编码</span>
                     </el-menu-item>
-                    <el-menu-item index="/spaceSetting">
-                        <i class="el-icon-setting" />
-                        <span>空间设置</span>
-                    </el-menu-item>
                 </el-submenu>
+                <el-menu-item index="/spaceSetting">
+                    <i class="el-icon-setting" />
+                    <span>空间设置</span>
+                </el-menu-item>
             </el-menu>
         </div>
         <div class="image-main">
@@ -68,15 +68,9 @@
             }
         },
         created() {
-            // this.userIsExist();
+
         },
         methods: {
-            // userIsExist: function() {
-            //     _self = this;
-            //     if (this.perId === "") {
-            //         _self.$router.push({path: '/'});
-            //     }
-            // },
             handlerSelect: function(key, keyPath) {
                 _self = this;
                 switch (key) {

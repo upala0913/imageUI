@@ -44,54 +44,41 @@
 .space-setting-search-name-title {
     position: absolute;
     top: -5px;
-    left: -45px;
+    left: 210px;
 }
 
 .space-setting-search-name {
-    width: 150px;
+    width: 130px;
     height: 30px;
     position: absolute;
     top: -10px;
-    left: -8px;
+    left: 245px;
 }
 
 .space-setting-search-type-title {
     position: absolute;
-    left: 156px;
+    left: 385px;
     top: -5px;
 }
 
 .space-setting-search-type {
     position: absolute;
-    left: 190px;
+    left: 420px;
     top: -10px;
-    width: 130px;
+    width: 90px;
 }
 
 .space-setting-search-delFlag-title {
     position: absolute;
-    left: 337px;
+    left: 530px;
     top: -5px;
 }
 
 .space-setting-delFlag {
     position: absolute;
-    left: 400px;
+    left: 590px;
     top: -10px;
     width: 100px;
-}
-
-.space-setting-search-delFlagType-title {
-    position: absolute;
-    left: 513px;
-    top: -5px;
-}
-
-.space-setting-delFlagType {
-    position: absolute;
-    left: 600px;
-    top: -10px;
-    width: 110px;
 }
 
 .space-search{
@@ -99,3 +86,70 @@
     top: -10px;
     left: 730px;
 }
+
+.space-folder-add{
+    position: absolute;
+    left: 460px;
+    top: 80px;
+    z-index: 1;
+}
+
+.space-folder-download{
+    position: absolute;
+    left: 560px;
+    top: 80px;
+    z-index: 1;
+}
+
+.add-folder {
+    width: 1700px;
+    height: auto;
+    position: absolute;
+    top: 10px;
+    left: -100px;
+}
+
+.folder-name {
+    position: relative;
+    top: -20px;
+    left: 130px;
+    width: 180px;
+}
+
+.folder-name-title{
+    position: relative;
+    top: -20px;
+    left: 130px;
+}
+
+.folder-index-title {
+    position: relative;
+    top: 30px;
+    left: -170px;
+}
+
+.folder-index {
+    position: relative;
+    top: -10px;
+    left: 220px;
+    width: 180px;
+}
+
+.folder-type{
+    position: relative;
+    top: 40px;
+    left: -13px;
+}
+
+.space-folder-type{
+    position: relative;
+    top: 40px;
+    left: -10px;
+    width: 180px;
+}
+
+.add-cancel, .add-submit{
+    position: relative;
+    top: 10px;
+}
+
